@@ -1,17 +1,17 @@
 # Main branch
 
-| Service           | Protocol   | Format | Direction         | Notes                           |
-| ----------------- | ---------- | ------ | ----------------- | ------------------------------- |
-| User Service      | REST       | JSON   | Internal + Public | Authenticates and tracks users  |
-| Game Service      | REST/Event | JSON   | Internal          | Coordinates gameplay state      |
-| Shop Service      | REST       | JSON   | Internal          | Manages purchases and inventory |
-| Roleplay Service  | REST/gRPC  | JSON   | Internal          | Executes role actions           |
-| Town Service      | REST       | JSON   | Internal          | Tracks player movement          |
-| Task Service      | REST/Event | JSON   | Internal          | Assigns and verifies tasks      |
-| Voting Service    | REST/Event | JSON   | Internal          | Voting flow during night phase  |
-| Rumors Service    | REST       | JSON   | Internal          | Distributes purchased rumors    |
-| Character Service | REST       | JSON   | Internal          | Handles player customization    |
-| Communication Svc | REST       | JSON   | Internal/Public   | In-game chat and messaging      |
+| Service               | Protocol | Format | Direction         | Notes                           | Database    |
+| --------------------- | -------- | ------ | ----------------- | ------------------------------- | ----------- |
+| **User Service**      | REST     | JSON   | Internal + Public | Authenticates and tracks users  | ✔️ Separate |
+| **Game Service**      | REST     | JSON   | Internal + Public | Coordinates gameplay state      | ✔️ Separate |
+| **Shop Service**      | REST     | JSON   | Internal + Public | Manages purchases and inventory | ✔️ Separate |
+| **Roleplay Service**  | REST     | JSON   | Internal          | Executes role actions           | ✔️ Separate |
+| **Town Service**      | REST     | JSON   | Internal + Public | Tracks player movement          | ✔️ Separate |
+| **Task Service**      | REST     | JSON   | Internal + Public | Assigns and verifies tasks      | ✔️ Separate |
+| **Voting Service**    | REST     | JSON   | Internal + Public | Voting flow during night phase  | ✔️ Separate |
+| **Rumors Service**    | REST     | JSON   | Internal + Public | Distributes purchased rumors    | ✔️ Separate |
+| **Character Service** | REST     | JSON   | Internal + Public | Handles player customization    | ✔️ Separate |
+| **Communication Svc** | REST     | JSON   | Internal + Public | In-game chat and messaging      | ✔️ Separate |
 
 ## Data Storage Strategy
 
@@ -24,16 +24,35 @@ Each service owns and manages its **own isolated database** to support:
 ### Data Access Between Services
 
 - Services **never directly query** other service databases.
-- All access is **via APIs or events**.
+- All access is **via APIs (REST, gRPC) or events (RabbitMQ)**.
 
 ## Unified API Schema & Data Formats
 
-All APIs use **REST + JSON**, with a common response schema:
+All REST APIs use **JSON** with a common response schema:
 
 ### Successful Response Format
 
-`{   "status": "success",   "data": {     "result": "..."   } }`
+```json
+{
+  "status": "success",
+  "data": { "result": "..." }
+}
+```
 
-### Error Response Format
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "User ID must be a valid UUID"
+  }
+}
+```
 
-`{   "status": "error",   "error": {     "code": "INVALID_INPUT",     "message": "User ID must be a valid UUID"   } }`
+gRPC APIs (Roleplay Service) use Protocol Buffers for high-performance communication.
+
+### Versioning
+
+- Follows Semantic Versioning (MAJOR.MINOR.PATCH).
+- Tag releases in main (e.g., v1.0.0).
+- Maintain CHANGELOG.md per service.
