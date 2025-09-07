@@ -1,0 +1,6 @@
+[submodule "microservices/roleplay-service"]
+	path = microservices/roleplay-service
+	url = git@github.com:RodionClepa/PAD-Roleplay-Service.git
+[submodule "microservices/shop-service"]
+	path = microservices/shop-service
+	url = git@github.com:RodionClepa/PAD-Shop-Service.git
