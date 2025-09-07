@@ -64,13 +64,13 @@
 ### Task Service API
 
 - **Endpoints**:
-  - **POST** `/api/task/assign` - Assign daily tasks to players
-  - **POST** `/api/task/complete` - Mark task as complete (awards currency)
-  - **GET** `/api/task/:userId` - Get user’s assigned tasks
+  - **POST** `/api/task/assign` - Body: `{ lobbyId, day }` - Assign tasks to all players in a lobby when a new day starts
+  - **POST** `/api/task/complete` - Body: `{ taskId, userId, lobbyId, evidence?, idempotencyKey }` - Mark a task as complete and award currency
+  - **GET** `/api/task/:userId` - Query: `{ lobbyId, day }` - Get the list of tasks for a specific player in that lobby/day
 
 ### Voting Service API
 
 - **Endpoints**:
-  - **POST** `/api/voting/vote` - Submit a vote for a player
-  - **GET** `/api/voting/results/:lobbyId` - Get voting results for a lobby
-  - **GET** `/api/voting/history/:userId` - Get user’s voting history
+  - **POST** `/api/voting/vote` - Body: `{ lobbyId, day, voterId, targetId, idempotencyKey }` - Submit a vote for a player
+  - **GET** `/api/voting/results/:lobbyId` - Query: `{ lobbyId, day }` - Get voting results for a lobby and the exiled player
+  - **GET** `/api/voting/history/:userId` - Get the voting history of a player
