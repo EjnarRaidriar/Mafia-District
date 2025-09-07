@@ -1,6 +1,6 @@
 [submodule "microservices/task-service"]
 	path = microservices/task-service
-	url = git@github.com:github.com/VintusS/PAD-Task-Service.git
+	url = git@github.com:VintusS/PAD-Task-Service.git
 [submodule "microservices/voting-service"]
 	path = microservices/voting-service
-	url = git@github.com:github.com/VintusS/PAD-Voting-Service.git
+	url = git@github.com:VintusS/PAD-Voting-Service.git
