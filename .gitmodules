@@ -1,0 +1,6 @@
+[submodule "Character-Service"]
+	path = Character-Service
+	url = git@github.com:EjnarRaidriar/Character-Service.git
+[submodule "Town-Service"]
+	path = Town-Service
+	url = git@github.com:EjnarRaidriar/Town-Service.git
