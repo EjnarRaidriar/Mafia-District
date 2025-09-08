@@ -4,3 +4,27 @@
 [submodule "microservices/user-management-service"]
 	path = microservices/user-management-service
 	url = git@github.com:edyson1202/pad-user-management-service.git
+[submodule "microservices/shop-service"]
+	path = microservices/shop-service
+	url = git@github.com:RodionClepa/PAD-Shop-Service.git
+[submodule "microservices/roleplay-service"]
+	path = microservices/roleplay-service
+	url = git@github.com:RodionClepa/PAD-Roleplay-Service.git
+[submodule "microservices/communication-service"]
+	path = microservices/communication-service
+	url = git@github.com:NikSays/PAD-Communication-Service.git
+[submodule "microservices/rumors-service"]
+	path = microservices/rumors-service
+	url = git@github.com:NikSays/PAD-Rumors-Service.git
+[submodule "microservices/task-service"]
+	path = microservices/task-service
+	url = git@github.com:VintusS/PAD-Task-Service.git
+[submodule "microservices/voting-service"]
+	path = microservices/voting-service
+	url = git@github.com:VintusS/PAD-Voting-Service.git
+[submodule "microservices/character-service"]
+	path = microservices/character-service
+	url = git@github.com:EjnarRaidriar/Character-Service.git
+[submodule "microservices/town-service"]
+	path = microservices/town-service
+	url = git@github.com:EjnarRaidriar/Town-Service.git
