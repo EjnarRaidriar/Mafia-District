@@ -4,3 +4,9 @@
 [submodule "microservices/voting-service"]
 	path = microservices/voting-service
 	url = git@github.com:VintusS/PAD-Voting-Service.git
+[submodule "microservices/communication-service"]
+	path = microservices/communication-service
+	url = git@github.com:NikSays/PAD-Communication-Service.git
+[submodule "microservices/rumors-service"]
+	path = microservices/rumors-service
+	url = git@github.com:NikSays/PAD-Rumors-Service.git
