@@ -59,7 +59,11 @@
 - **Endpoints**:
   - **POST** `/api/communication/global` - Send global chat message (voting hours)
   - **POST** `/api/communication/private` - Send private chat message (e.g., Mafia group)
-  - **GET** `/api/communication/history/:userId` - Get user’s chat history
+  - **GET** `/api/communication/history/:userId` - Returns the chat messages visible to the user, including messages the user has sent and received (e.g., global chat, group chat, or private messages the user was a participant in).
+    - Query Parameters (optional):
+    - chatType: "global" | "private" | "group" (default: all)
+    - limit: Number of messages to return
+    - since: Timestamp to filter from
 
 ### Task Service API
 
