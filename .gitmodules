@@ -5,10 +5,10 @@
 	path = microservices/roleplay-service
 	url = git@github.com:RodionClepa/PAD-Roleplay-Service.git
 [submodule "Town-Service"]
-	path = Town-Service
+	path = mircorservices/Town-Service
 	url = git@github.com:EjnarRaidriar/Town-Service.git
 [submodule "Character-Service"]
-	path = Character-Service
+	path = mircorservices/Character-Service
 	url = git@github.com:EjnarRaidriar/Character-Service.git
 [submodule "microservices/rumors-service"]
 	path = microservices/rumors-service
