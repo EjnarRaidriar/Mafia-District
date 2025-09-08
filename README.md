@@ -52,6 +52,36 @@
 
 ---
 
+## Town Service
+
+### Technology Stack
+
+- **Language**: Go
+- **Framework**: gRPC library, Gin
+- **Communication Pattern**: WebSocket and gRPC
+
+### Trade-offs
+
+- Go's goroutines excel at managing concurrent game sessions and real-time player interactions
+- **Pros**: Excellent concurrency for multiple games, fast WebSocket handling, simple deployment, mature networking libraries
+- **Cons**: Less expressive type system than Rust, manual memory management compared to garbage collection trade-offs
+
+## Character Service
+
+### Technology Stack
+
+- **Language**: Rust
+- **Framework**: Axum
+- **Communication Pattern**: gRPC
+
+### Trade-offs
+
+- Rust provides memory safety and performance for handling persistent user data and complex statistical calculations
+- **Pros**: Zero-cost abstractions, memory safety prevents data corruption, excellent async performance, strong type system for data modeling
+- **Cons**: Steeper learning curve, longer compilation times, smaller ecosystem compared to Go/Python
+
+---
+
 ## Rumors service
 
 ### Technology Stack
