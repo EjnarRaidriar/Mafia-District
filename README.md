@@ -408,6 +408,10 @@ The following sections describe the key services and their responsibilities with
   - **GET** `/api/voting/results/:lobbyId` - Query: `{ lobbyId, day }` - Get voting results for a lobby and the exiled player
   - **GET** `/api/voting/history/:userId` - Get the voting history of a player
 
+# Architectural Diagram of Microservices operation
+
+<img width="1068" height="798" alt="image" src="./assets/diagrams/Architecture_diagram.png" />
+
 # Communication Contract
 
 | Service               | Protocol | Format | Direction         | Notes                           | Database    |
