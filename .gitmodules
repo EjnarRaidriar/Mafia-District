@@ -1,0 +1,6 @@
+[submodule "microservices/game-service"]
+	path = microservices/game-service
+	url = git@github.com:edyson1202/pad-game-service.git
+[submodule "microservices/user-management-service"]
+	path = microservices/user-management-service
+	url = git@github.com:edyson1202/pad-user-management-service.git
