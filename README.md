@@ -2,6 +2,21 @@
 
 # Technologies
 
+### Technology Stack
+
+- **Language**: Go, Rust
+- **Framework**: Golang Standard Library, Axum
+- **Communication Pattern**: RESTful API or gRPC
+
+### Trade-offs
+
+#### Go
+- **Pros**: Go's is simple, lightweight both in terms of CPU and memory usage, robust ecosystem, and built in concurrency support
+- **Cons**: Verbose error handling, slower to iterate on than a language like Python or Javascript
+#### Rust
+- **Pros**: Extremely fast, safe due to unique safety features, fearless concurrency, growing popularity both in open-source and enterprise-owned software
+- **Cons**: ecosystem still maturing, slow to iterate on, long compile times, steep learning curve, performance gains might be overkill for many projects
+
 ## Shop Service
 
 ### Technology Stack
