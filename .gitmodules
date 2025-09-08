@@ -16,3 +16,9 @@
 [submodule "microservices/voting-service"]
 	path = microservices/voting-service
 	url = git@github.com:VintusS/PAD-Voting-Service.git
+[submodule "microservices/character-service"]
+	path = microservices/character-service
+	url = git@github.com:EjnarRaidriar/Character-Service.git
+[submodule "microservices/town-service"]
+	path = microservices/town-service
+	url = git@github.com:EjnarRaidriar/Town-Service.git
