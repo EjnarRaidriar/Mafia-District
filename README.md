@@ -34,6 +34,38 @@
 
 ---
 
+## Rumors service
+
+### Technology Stack
+
+- **Language**: Go
+- **Framework**: gRPC library
+- **Communication Pattern**: gRPC
+
+### Trade-offs
+
+- Go and gRPC work very well together
+- No need to reimplement same calls indifferent languages, just codegen.
+
+---
+
+## Communication service
+
+### Technology Stack
+
+- **Language**: Go
+- **Framework**: gRPC library
+- **Communication Pattern**: gRPC with streams
+
+### Trade-offs
+
+- WebSockets is a mode widely suported alternative but will likely
+  require some protocol over it.
+- gRPC supports streaming of structured messages out of the box.
+- Not every language supports gRPC streaming.
+
+---
+
 ## Task Service
 
 ### Technology Stack
@@ -63,28 +95,3 @@
 - Python is good for writing vote rules, counting results, and keeping history.
 - **Pros**: Easy to read and write, fast to develop, big library support.
 - **Cons**: Slower than Go, but not a problem because voting happens only once per night in each lobby.
-
-## Rumors service
-
-### Technology Stack 
-- **Language**: Go
-- **Framework**: gRPC library 
-- **Communication Pattern**: gRPC
-
-### Trade-offs
-- Go and gRPC work very well together
-- No need to reimplement same calls indifferent languages, just codegen.
-
-## Communication service
-
-### Technology Stack 
-- **Language**: Go
-- **Framework**: gRPC library
-- **Communication Pattern**: gRPC with streams
-
-### Trade-offs
-- WebSockets is a mode widely suported alternative but will likely
-  require some protocol over it.
-- gRPC supports streaming of structured messages out of the box.
-- Not every language supports gRPC streaming.
-
