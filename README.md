@@ -11,9 +11,12 @@
 ### Trade-offs
 
 #### Go
+
 - **Pros**: Go's is simple, lightweight both in terms of CPU and memory usage, robust ecosystem, and built in concurrency support
 - **Cons**: Verbose error handling, slower to iterate on than a language like Python or Javascript
+
 #### Rust
+
 - **Pros**: Extremely fast, safe due to unique safety features, fearless concurrency, growing popularity both in open-source and enterprise-owned software
 - **Cons**: ecosystem still maturing, slow to iterate on, long compile times, steep learning curve, performance gains might be overkill for many projects
 
@@ -21,15 +24,15 @@
 
 ### Technology Stack
 
-- **Language**: Go (Golang)
-- **Framework**: Standard library
+- **Language**: TypeScript
+- **Framework**: Express.js
 - **Communication Pattern**: RESTful API
 
 ### Trade-offs
 
-- Go's simplicity, fast execution, and built-in concurrency (goroutines) are ideal handling high transaction volumes in a game with up to 30 players per lobby performing frequent purchases.
-- **Pros**: High performance, low memory required, and easy-to-maintain codebase suit a service with straightforward logic
-- **Cons**: Verbose error handling, statically typed language which can we hard to implement with role service
+- TypeScript’s strong typing and JavaScript runtime via Node.js provide a flexible, developer-friendly environment for handling high transaction volumes in a game with up to 30 players per lobby performing frequent purchases
+- **Pros**: Strong type safety reduces runtime errors, ensuring reliable purchase and inventory logic
+- **Cons**: Node.js single-threaded event loop may require careful optimization to handle peak loads compared to Go’s concurrency model
 
 ---
 
