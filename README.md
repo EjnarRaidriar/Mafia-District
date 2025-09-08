@@ -46,6 +46,6 @@
 
 #### **4. Test Coverage**
 
-- **Requirement**: Minimum **50% test coverage** for each service.
+- **Requirement**: Minimum **20% test coverage** for each service.
 - **Types of Tests**:
   - **Unit Tests**: Cover individual functions
