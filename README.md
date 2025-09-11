@@ -1,9 +1,15 @@
 # Mafia-District
 
-## Definitions
+## Definitions / roles
 
 - **Career** - refers to in-game profession which maybe assigns role-specific tasks
-- **Vampires** - is mafia role
+- **Vampires** – Equivalent to the Mafia role. They work together secretly at night to eliminate other players and aim to outnumber or overpower the townsfolk. Their strength lies in coordination and secrecy.
+
+- **Sheriff** – A town investigative role. The Sheriff can check a player’s alignment during the night phase, attempting to reveal Mafia (Vampires) members. The role is crucial for guiding daytime voting.
+
+- **Alchemist** – A town protective role. The Alchemist uses potions or remedies each night to safeguard a chosen player from harm. If the Vampires target that player, the Alchemist’s protection prevents the elimination.
+
+- **Villager** – A basic town-aligned role with no special powers. Villagers rely on discussion, deduction, and voting during the day phase to identify and exile the Mafia (Vampires). Their strength lies in numbers and collective reasoning.
 
 ## **Service Boundaries**
 
@@ -324,89 +330,645 @@ The following sections describe the key services and their responsibilities with
 
 ### **4. Test Coverage**
 
-- **Requirement**: Minimum **20% test coverage** for each service.
+- **Requirement**: Minimum **80% test coverage** for each service.
 - **Types of Tests**:
   - **Unit Tests**: Cover individual functions
 
-
 ## Endpoints
 
-### User Management Service API
+### **User Management Service API**
 
-- **Endpoints**:
-  - **GET** /api/user/:id - Retrieve user info (email, username, device info)
-  - **POST** /api/user - Create a new user profile (enforce single profile via device/location checks)
-  - **PUT** /api/user/:id - Update user info (e.g., username, password)
-  - **DELETE** /api/user/:id - Delete user profile (admin only)
+- **GET** `/api/user/:id`
+  **Response (200)**
 
-### Game Service API
+  ```json
+  {
+    "id": "u123",
+    "email": "player@example.com",
+    "username": "MafiaBoss",
+    "deviceInfo": "iPhone 14 / iOS 18",
+    "location": "Moldova"
+  }
+  ```
 
-- **Endpoints**:
-  - **POST** `/api/game/lobbies` - Create a new game lobby (up to 30 players)
-  - **GET** `/api/game/lobbies/:id` - Get lobby details (players, status)
-  - **POST** `/api/game/lobbies/:id/join` - Join a lobby
-  - **POST** `/api/game/lobbies/:id/start` - Start the game (triggers Day/Night cycle)
+- **POST** `/api/user`
+  **Request**
 
-### Shop Service API
+  ```json
+  {
+    "email": "player@example.com",
+    "username": "MafiaBoss",
+    "password": "securePass123",
+    "deviceInfo": "iPhone 14 / iOS 18"
+  }
+  ```
 
-- **Format:** JSON
-- **Endpoints**:
-  - **GET** `/api/shop/items` - List available items (with quantities and prices)
-  - **POST** `/api/shop/purchase` - Purchase an item (deducts currency, updates inventory)
-  - **GET** `/api/shop/purchases/:userId` - Get user’s purchase history
+  **Response (201)**
 
-### Roleplay Service API
+  ```json
+  {
+    "message": "User profile created successfully",
+    "id": "u123"
+  }
+  ```
 
-- **Format**: JSON
-- **Endpoints**:
-  - **POST** `/api/roleplay/action` - Execute a role-specific action (e.g., Mafia kill, Sheriff guess)
-  - **GET** `/api/roleplay/roles/:userId` - Get user’s role and allowed actions
-  - **POST** `/api/roleplay/announcement` - Generate filtered announcement for an action
+- **PUT** `/api/user/:id`
+  **Request**
 
-### Town Service API
+  ```json
+  {
+    "username": "DonMafia",
+    "password": "newPass456"
+  }
+  ```
 
-- **Endpoints**:
-  - **GET** `/api/town/locations` - List all town locations (e.g., Shop, Informator Bureau)
-  - **POST** `/api/town/move` - Record player movement to a location
-  - **GET** `/api/town/movements/:userId` - Get user’s movement history
+  **Response (200)**
 
-### Character Service API
+  ```json
+  {
+    "message": "User updated successfully",
+    "updatedFields": ["username", "password"]
+  }
+  ```
 
-- **Endpoints**:
-  - **POST** `/api/character/customize` - Customize character (e.g., hair, coat)
-  - **GET** `/api/character/:userId` - Get character details and inventory
-  - **PUT** `/api/character/inventory` - Update inventory (e.g., after Shop purchase)
+- **DELETE** `/api/user/:id`
+  **Response (200)**
 
-### Rumors Service API
+  ```json
+  {
+    "message": "User profile deleted",
+    "id": "u123"
+  }
+  ```
 
-- **Endpoints**:
-  - **POST** `/api/rumors/purchase` - Buy a random rumor (deducts currency)
-  - **GET** `/api/rumors/:userId` - Get user’s purchased rumors
+---
 
-### Communication Service API
+### **Game Service API**
 
-- **Endpoints**:
-  - **POST** `/api/communication/global` - Send global chat message (voting hours)
-  - **POST** `/api/communication/private` - Send private chat message (e.g., Mafia group)
-  - **GET** `/api/communication/history/:userId` - Returns the chat messages visible to the user, including messages the user has sent and received (e.g., global chat, group chat, or private messages the user was a participant in).
-    - Query Parameters (optional):
-    - chatType: "global" | "private" | "group" (default: all)
-    - limit: Number of messages to return
-    - since: Timestamp to filter from
+- **POST** `/api/game/lobbies`
+  **Request**
 
-### Task Service API
+  ```json
+  {
+    "hostId": "u123",
+    "maxPlayers": 20
+  }
+  ```
 
-- **Endpoints**:
-  - **POST** `/api/task/assign` - Body: `{ lobbyId, day }` - Assign tasks to all players in a lobby when a new day starts
-  - **POST** `/api/task/complete` - Body: `{ taskId, userId, lobbyId, evidence?, idempotencyKey }` - Mark a task as complete and award currency
-  - **GET** `/api/task/:userId` - Query: `{ lobbyId, day }` - Get the list of tasks for a specific player in that lobby/day
+  **Response (201)**
 
-### Voting Service API
+  ```json
+  {
+    "lobbyId": "l456",
+    "hostId": "u123",
+    "status": "waiting",
+    "players": ["u123"],
+    "maxPlayers": 20
+  }
+  ```
 
-- **Endpoints**:
-  - **POST** `/api/voting/vote` - Body: `{ lobbyId, day, voterId, targetId, idempotencyKey }` - Submit a vote for a player
-  - **GET** `/api/voting/results/:lobbyId` - Query: `{ lobbyId, day }` - Get voting results for a lobby and the exiled player
-  - **GET** `/api/voting/history/:userId` - Get the voting history of a player
+- **GET** `/api/game/lobbies/:id`
+  **Response (200)**
+
+  ```json
+  {
+    "lobbyId": "l456",
+    "status": "waiting",
+    "players": [
+      { "id": "u123", "username": "DonMafia" },
+      { "id": "u456", "username": "SheriffSam" }
+    ],
+    "maxPlayers": 20
+  }
+  ```
+
+- **POST** `/api/game/lobbies/:id/join`
+  **Request**
+
+  ```json
+  {
+    "userId": "u789"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Joined lobby successfully",
+    "lobbyId": "l456",
+    "players": ["u123", "u456", "u789"]
+  }
+  ```
+
+- **POST** `/api/game/lobbies/:id/start`
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Game started",
+    "lobbyId": "l456",
+    "phase": "Day"
+  }
+  ```
+
+---
+
+### **Shop Service API**
+
+- **GET** `/api/shop/items`
+  **Response (200)**
+
+  ```json
+  [
+    {
+      "itemId": "i101",
+      "name": "Bulletproof Vest",
+      "price": 100,
+      "quantity": 5
+    },
+    { "itemId": "i102", "name": "Fake ID", "price": 50, "quantity": 12 }
+  ]
+  ```
+
+- **POST** `/api/shop/purchase`
+  **Request**
+
+  ```json
+  {
+    "userId": "u123",
+    "itemId": "i101",
+    "quantity": 1
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Purchase successful",
+    "userId": "u123",
+    "item": { "itemId": "i101", "name": "Bulletproof Vest" },
+    "remainingCurrency": 400
+  }
+  ```
+
+- **GET** `/api/shop/purchases/:userId`
+  **Response (200)**
+
+  ```json
+  [
+    {
+      "purchaseId": "p001",
+      "itemId": "i101",
+      "name": "Bulletproof Vest",
+      "quantity": 1,
+      "timestamp": "2025-09-11T17:00:00Z"
+    },
+    {
+      "purchaseId": "p002",
+      "itemId": "i102",
+      "name": "Fake ID",
+      "quantity": 2,
+      "timestamp": "2025-09-11T18:00:00Z"
+    }
+  ]
+  ```
+
+---
+
+### **Roleplay Service API**
+
+- **POST** `/api/roleplay/action`
+  **Request**
+
+  ```json
+  {
+    "userId": "u123",
+    "action": "kill",
+    "targetId": "u456"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Action executed",
+    "action": "kill",
+    "result": "target eliminated"
+  }
+  ```
+
+- **GET** `/api/roleplay/roles/:userId`
+  **Response (200)**
+
+  ```json
+  {
+    "userId": "u123",
+    "role": "Mafia",
+    "allowedActions": ["kill", "hide"]
+  }
+  ```
+
+- **POST** `/api/roleplay/announcement`
+  **Request**
+
+  ```json
+  {
+    "action": "Sheriff guess",
+    "message": "Sheriff investigated a player"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "announcement": "Sheriff has investigated someone"
+  }
+  ```
+
+---
+
+### **Town Service API**
+
+- **GET** `/api/town/locations`
+  **Response (200)**
+
+  ```json
+  [
+    { "id": "loc1", "name": "Shop" },
+    { "id": "loc2", "name": "Informator Bureau" },
+    { "id": "loc3", "name": "Town Square" }
+  ]
+  ```
+
+- **POST** `/api/town/move`
+  **Request**
+
+  ```json
+  {
+    "userId": "u123",
+    "locationId": "loc2"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Movement recorded",
+    "userId": "u123",
+    "locationId": "loc2",
+    "timestamp": "2025-09-11T19:00:00Z"
+  }
+  ```
+
+- **GET** `/api/town/movements/:userId`
+  **Response (200)**
+
+  ```json
+  [
+    {
+      "locationId": "loc1",
+      "name": "Shop",
+      "timestamp": "2025-09-11T18:30:00Z"
+    },
+    {
+      "locationId": "loc2",
+      "name": "Informator Bureau",
+      "timestamp": "2025-09-11T19:00:00Z"
+    }
+  ]
+  ```
+
+---
+
+## **Character Service API**
+
+- **POST** `/api/character/customize`
+  **Request**
+
+  ```json
+  {
+    "userId": "u123",
+    "appearance": {
+      "hair": "brown",
+      "coat": "black",
+      "hat": "fedora"
+    }
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Character customized successfully",
+    "userId": "u123",
+    "appearance": {
+      "hair": "brown",
+      "coat": "black",
+      "hat": "fedora"
+    }
+  }
+  ```
+
+- **GET** `/api/character/:userId`
+  **Response (200)**
+
+  ```json
+  {
+    "userId": "u123",
+    "appearance": {
+      "hair": "brown",
+      "coat": "black",
+      "hat": "fedora"
+    },
+    "inventory": [
+      { "itemId": "i101", "name": "Bulletproof Vest", "quantity": 1 },
+      { "itemId": "i102", "name": "Fake ID", "quantity": 2 }
+    ]
+  }
+  ```
+
+- **PUT** `/api/character/inventory`
+  **Request**
+
+  ```json
+  {
+    "userId": "u123",
+    "itemId": "i103",
+    "quantityChange": 1
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Inventory updated",
+    "userId": "u123",
+    "inventory": [
+      { "itemId": "i101", "name": "Bulletproof Vest", "quantity": 1 },
+      { "itemId": "i102", "name": "Fake ID", "quantity": 2 },
+      { "itemId": "i103", "name": "Night Vision Goggles", "quantity": 1 }
+    ]
+  }
+  ```
+
+---
+
+## **Rumors Service API**
+
+- **POST** `/api/rumors/purchase`
+  **Request**
+
+  ```json
+  {
+    "userId": "u123"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Rumor purchased successfully",
+    "userId": "u123",
+    "rumor": {
+      "rumorId": "r001",
+      "text": "Someone in the mafia visited the Shop last night."
+    },
+    "remainingCurrency": 350
+  }
+  ```
+
+- **GET** `/api/rumors/:userId`
+  **Response (200)**
+
+  ```json
+  [
+    {
+      "rumorId": "r001",
+      "text": "Someone in the mafia visited the Shop last night.",
+      "timestamp": "2025-09-11T18:00:00Z"
+    },
+    {
+      "rumorId": "r002",
+      "text": "Sheriff is close to finding the Godfather.",
+      "timestamp": "2025-09-11T19:00:00Z"
+    }
+  ]
+  ```
+
+---
+
+## **Communication Service API**
+
+- **POST** `/api/communication/global`
+  **Request**
+
+  ```json
+  {
+    "userId": "u123",
+    "message": "I think u456 is suspicious!"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Global message sent",
+    "chatId": "c001",
+    "userId": "u123",
+    "text": "I think u456 is suspicious!",
+    "timestamp": "2025-09-11T19:05:00Z"
+  }
+  ```
+
+- **POST** `/api/communication/private`
+  **Request**
+
+  ```json
+  {
+    "senderId": "u123",
+    "recipientId": "u456",
+    "message": "Meet me at the Shop tonight."
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Private message sent",
+    "chatId": "c002",
+    "senderId": "u123",
+    "recipientId": "u456",
+    "text": "Meet me at the Shop tonight.",
+    "timestamp": "2025-09-11T19:10:00Z"
+  }
+  ```
+
+- **GET** `/api/communication/history/:userId`
+  **Query Parameters (optional):**
+  `chatType=global|private|group` | `limit=50` | `since=2025-09-11T18:00:00Z`
+
+  **Response (200)**
+
+  ```json
+  [
+    {
+      "chatId": "c001",
+      "type": "global",
+      "userId": "u123",
+      "text": "I think u456 is suspicious!",
+      "timestamp": "2025-09-11T19:05:00Z"
+    },
+    {
+      "chatId": "c002",
+      "type": "private",
+      "senderId": "u123",
+      "recipientId": "u456",
+      "text": "Meet me at the Shop tonight.",
+      "timestamp": "2025-09-11T19:10:00Z"
+    }
+  ]
+  ```
+
+---
+
+## **Task Service API**
+
+- **POST** `/api/task/assign`
+  **Request**
+
+  ```json
+  {
+    "lobbyId": "l456",
+    "day": 2
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Tasks assigned successfully",
+    "lobbyId": "l456",
+    "day": 2,
+    "assignedTasks": [
+      {
+        "taskId": "t101",
+        "userId": "u123",
+        "description": "Collect evidence at Town Square"
+      },
+      {
+        "taskId": "t102",
+        "userId": "u456",
+        "description": "Follow suspicious player"
+      }
+    ]
+  }
+  ```
+
+- **POST** `/api/task/complete`
+  **Request**
+
+  ```json
+  {
+    "taskId": "t101",
+    "userId": "u123",
+    "lobbyId": "l456",
+    "evidence": "Photo",
+    "idempotencyKey": "xyz123"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Task completed successfully",
+    "taskId": "t101",
+    "userId": "u123",
+    "rewardCurrency": 50,
+    "newBalance": 400
+  }
+  ```
+
+- **GET** `/api/task/:userId`
+  **Query**: `{ lobbyId, day }`
+  **Response (200)**
+
+  ```json
+  [
+    {
+      "taskId": "t101",
+      "description": "Collect evidence at Town Square",
+      "status": "completed"
+    },
+    { "taskId": "t103", "description": "Spy on the Shop", "status": "pending" }
+  ]
+  ```
+
+---
+
+## **Voting Service API**
+
+- **POST** `/api/voting/vote`
+  **Request**
+
+  ```json
+  {
+    "lobbyId": "l456",
+    "day": 2,
+    "voterId": "u123",
+    "targetId": "u456",
+    "idempotencyKey": "vote-xyz"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "message": "Vote submitted successfully",
+    "lobbyId": "l456",
+    "day": 2,
+    "voterId": "u123",
+    "targetId": "u456"
+  }
+  ```
+
+- **GET** `/api/voting/results/:lobbyId`
+  **Query**: `{ day }`
+  **Response (200)**
+
+  ```json
+  {
+    "lobbyId": "l456",
+    "day": 2,
+    "results": [
+      { "targetId": "u456", "votes": 3 },
+      { "targetId": "u789", "votes": 2 }
+    ],
+    "exiledPlayerId": "u456"
+  }
+  ```
+
+- **GET** `/api/voting/history/:userId`
+  **Response (200)**
+
+  ```json
+  [
+    { "day": 1, "voterId": "u123", "targetId": "u789", "lobbyId": "l456" },
+    { "day": 2, "voterId": "u123", "targetId": "u456", "lobbyId": "l456" }
+  ]
+  ```
 
 # Architectural Diagram of Microservices operation
 
