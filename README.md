@@ -120,14 +120,25 @@ The following sections describe the key services and their responsibilities with
 ### **9. Task Service**
 
 - **Responsibilities:**
-  - Assigns daily tasks to players based on their roles and careers
-  - Players earn in-game currency by completing tasks
-  - Tasks may require players to use specific items, visit locations, or interact with players
-  - Some tasks may result in rumors being generated
+  - Issues daily tasks on demand and auto-generates “daily duties” when the Game Service emits a `DayStarted` event.
+  - Tracks completion status, rewards, and enforces optional location requirements before a task can be finished.
+  - Emits `TaskAssigned` / `TaskCompleted` events (stubs in place for Kafka/RabbitMQ).
+
+- **External Contracts (mocked in code/tests):**
+  - `GET /api/game/lobbies/{lobbyId}/players` → returns players as `{ id, role, alive }`; only alive players receive auto-assigned tasks.
+  - `DayStarted` event payload `{ "lobbyId": "l123", "day": 3 }` → triggers the auto-assignment workflow.
+  - Town Service location check (e.g., `GET /api/town/lobbies/{lobbyId}/players/{userId}/locations/{locationId}`) → boolean response confirming whether the player has visited the required location.
+
 - **Data Stored:**
-  - Task assignments
-  - Player task completions
-  - Rumor generation
+  - `tasks` table (PostgreSQL) with `required_location` column, plus `task_completions` for idempotency.
+  - Emits events to the message bus once the real broker is wired in.
+
+- **Tooling / Artifacts:**
+  - Docker image: `dmindrescu/task-service:<tag>` (public on DockerHub).
+  - `docker-compose up --build` spins up Postgres + Task Service (applies `db/schema.sql` and `db/seed.sql`).
+  - `scripts/seed_db.sh` replays the schema/seed against any DSN via `psql`.
+  - Postman collection: `postman/task-service.postman_collection.json` (assign/list/get/complete flows with defaults targeting `http://localhost:8081`).
+  - Tests: `mkdir -p .gocache && GOCACHE=$(pwd)/.gocache go test ./...` (≈80 % coverage).
 
 ---
 
