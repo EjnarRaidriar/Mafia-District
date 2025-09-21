@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "Task Service",
+    "description": "Postman collection for Mafia District Task Service REST API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "lobbyId",
+      "value": "l-demo"
+    },
+    {
+      "key": "userId",
+      "value": "u77"
+    },
+    {
+      "key": "taskId",
+      "value": "{{lastTaskId}}",
+      "description": "Populate with an ID returned from the assign-day endpoint"
+    }
+  ],
+  "item": [
+    {
+      "name": "Assign Tasks",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"lobbyId\": \"{{lobbyId}}\",\n  \"day\": 2,\n  \"tasks\": [\n    { \"userId\": \"{{userId}}\", \"description\": \"Scout the docks\", \"reward\": 15 }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/task/assign-day",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "task",
+            "assign-day"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Tasks For User",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/task/user/{{userId}}?lobbyId={{lobbyId}}&day=2",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "task",
+            "user",
+            "{{userId}}"
+          ],
+          "query": [
+            {
+              "key": "lobbyId",
+              "value": "{{lobbyId}}"
+            },
+            {
+              "key": "day",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Task By ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/task/{{taskId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "task",
+            "{{taskId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Complete Task",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"taskId\": \"{{taskId}}\",\n  \"userId\": \"{{userId}}\",\n  \"lobbyId\": \"{{lobbyId}}\",\n  \"idempotencyKey\": \"demo-key\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/task/complete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "task",
+            "complete"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
