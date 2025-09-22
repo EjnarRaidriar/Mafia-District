@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "879d4ed5-8bb1-4caf-9fe8-63bf25ae83f2",
+		"name": "Shop API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20523459"
+	},
+	"item": [
+		{
+			"name": "Get All Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shopApi}}/items",
+					"host": [
+						"{{shopApi}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Process Purchase",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": \"1\", \"itemId\": \"1\", \"idempotencyKey\": \"abc123\", \"gameId\": \"1234\"}"
+				},
+				"url": {
+					"raw": "{{shopApi}}/purchase",
+					"host": [
+						"{{shopApi}}"
+					],
+					"path": [
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Purchases by User ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shopApi}}/purchases/1",
+					"host": [
+						"{{shopApi}}"
+					],
+					"path": [
+						"purchases",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Updated Item 1\", \"price\": 150}"
+				},
+				"url": {
+					"raw": "{{shopApi}}/items/1",
+					"host": [
+						"{{shopApi}}"
+					],
+					"path": [
+						"items",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Item",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{shopApi}}/items/1",
+					"host": [
+						"{{shopApi}}"
+					],
+					"path": [
+						"items",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Game Supplies",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"gameId\": \"1234\"}"
+				},
+				"url": {
+					"raw": "{{shopApi}}/games",
+					"host": [
+						"{{shopApi}}"
+					],
+					"path": [
+						"games"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resupply Game",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{shopApi}}/games/1234/resupply",
+					"host": [
+						"{{shopApi}}"
+					],
+					"path": [
+						"games",
+						"1234",
+						"resupply"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
