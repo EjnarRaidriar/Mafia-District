@@ -134,12 +134,26 @@ The following sections describe the key services and their responsibilities with
 ### **10. Voting Service**
 
 - **Responsibilities:**
-  - Collects and counts votes during the evening voting phase
-  - Tracks which players voted for which others and calculates the final voting result
-  - Notifies the Game Service about the exiled player after voting
+  - Collects and stores player votes during the evening phase, enforcing idempotency via voter/day pairs and idempotency keys.
+  - Aggregates tallies per lobby/day, resolves ties (no exile on draw), and exposes history for audit/replay.
+  - Publishes `vote_cast` / `vote_results` notifications to the Game Service (mocked in-memory by default; switchable via `GAME_SERVICE_WEBHOOK_URL`).
+
+- **External Contracts (mocked in code/tests):**
+  - `POST /api/game/vote-cast` – receives individual vote payloads `{ lobbyId, day, voterId, targetId, createdAt }`.
+  - `POST /api/game/vote-results` – receives aggregated results `{ lobbyId, day, tally: [{ targetId, votes }], exiledUserId }`.
+  - Game/Town eligibility checks are currently stubbed; validation hooks are ready for future integrations.
+
 - **Data Stored:**
-  - Vote counts
-  - Voting history (who voted for whom)
+  - `votes` table (SQLite by default; configurable via `DATABASE_URL`) containing voter, target, idempotency key, and timestamp.
+  - Derived tallies computed on demand; history queries return persisted vote rows.
+
+- **Tooling / Artifacts:**
+  - Docker image: `dmindrescu/voting-service:v1.0.0` (public on Docker Hub).
+  - `docker compose up --build` launches the service with SQLite volume at `./data`; override `DATABASE_URL` to target Postgres.
+  - `scripts/seed_votes.py` seeds demo votes (`--flush` and optional `--votes-json` inputs).
+  - `scripts/docker_publish.sh <dockerhub-user> <version>` builds and pushes tagged images.
+  - Tests: `python3 -m pytest --cov=app` (~87 % coverage) including notifier/event mocks.
+  - Postman collection resides in CPR: `collections/VotingService.postman_collection.json` (health, vote, results, history flows; `base_url` variable defaults to `http://localhost:8000`).
 
 ---
 
