@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:14
+    image: postgres:17
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -9,7 +9,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "${POSTGRES_EXPOSE_PORT}:5432"
 
   shop-service:
     image: crodion/shop-service:1.0.1
@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
     ports:
-      - "3001:3001"
+      - "${PORT}:${PORT}"
     depends_on:
       - db
 

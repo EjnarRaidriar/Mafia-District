@@ -1,5 +1,5 @@
 -- Seed script for Shop Service database (shop_db)
--- Run this with: psql -h localhost -p 5433 -U user -d shop_db -f seed_shop.sql
+-- Run this with: psql -h localhost -p 6100 -U user -d shop_db -f seed_shop.sql
 
 DO $$
 BEGIN
