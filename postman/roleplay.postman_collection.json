@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "07504697-d041-439b-9436-0f670a4f71a9",
+		"name": "Roleplay API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20523459"
+	},
+	"item": [
+		{
+			"name": "Get Roles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{roleplayApi}}/roles",
+					"host": [
+						"{{roleplayApi}}"
+					],
+					"path": [
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Action",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"game_id\": 123,\n  \"player_id\": 1,\n  \"role_id\": 1,\n  \"target_id\": 5,\n  \"action_types\": [\"kill\"],\n  \"idempotency_key\": \"unique_key_001\"\n}"
+				},
+				"url": {
+					"raw": "{{roleplayApi}}/actions",
+					"host": [
+						"{{roleplayApi}}"
+					],
+					"path": [
+						"actions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Actions by Game",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{roleplayApi}}/actions/1231234124",
+					"host": [
+						"{{roleplayApi}}"
+					],
+					"path": [
+						"actions",
+						"1231234124"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Item Effect",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"game_id\": 123,\n  \"player_id\": 1,\n  \"item_id\": 2,\n  \"target_action_id\": 1\n}"
+				},
+				"url": {
+					"raw": "{{roleplayApi}}/items/apply",
+					"host": [
+						"{{roleplayApi}}"
+					],
+					"path": [
+						"items",
+						"apply"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

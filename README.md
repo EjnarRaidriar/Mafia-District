@@ -199,6 +199,9 @@ The following sections describe the key services and their responsibilities with
 - **Pros**: Strong type safety reduces runtime errors, ensuring reliable purchase and inventory logic
 - **Cons**: Node.js single-threaded event loop may require careful optimization to handle peak loads compared to Go’s concurrency model
 
+Image
+`docker pull crodion/shop-service:1.0.1`
+
 ---
 
 ## Roleplay Service
@@ -214,6 +217,8 @@ The following sections describe the key services and their responsibilities with
 - Python is easy and has rich ecosystem which simplify implementing complex role logic and item effect rules
 - **Pros**: Rapid development, and easy-to-maintain code for complex logic
 - **Cons**: Slower runtime performance than GO
+
+`docker pull crodion/roleplay-service:1.0.2`
 
 ---
 
@@ -501,118 +506,513 @@ The following sections describe the key services and their responsibilities with
 
 ### **Shop Service API**
 
-- **GET** `/api/shop/items`
-  **Response (200)**
+**1. GET `/api/shop/items`**
 
-  ```json
-  [
-    {
-      "itemId": "i101",
-      "name": "Bulletproof Vest",
-      "price": 100,
-      "quantity": 5
-    },
-    { "itemId": "i102", "name": "Fake ID", "price": 50, "quantity": 12 }
-  ]
-  ```
+**Description:** Fetch all items in the shop.
 
-- **POST** `/api/shop/purchase`
-  **Request**
+**Request:** None
 
-  ```json
-  {
-    "userId": "u123",
-    "itemId": "i101",
-    "quantity": 1
+**Responses:**
+
+- `200 OK`
+
+```json
+{
+  "status": "success",
+  "data": {
+    "items": [
+      { "id": 1, "name": "Garlic", "price": 50 },
+      { "id": 2, "name": "Cross", "price": 75 }
+    ]
   }
-  ```
+}
+```
 
-  **Response (200)**
+- `500 Internal Server Error`
 
-  ```json
-  {
-    "message": "Purchase successful",
-    "userId": "u123",
-    "item": { "itemId": "i101", "name": "Bulletproof Vest" },
-    "remainingCurrency": 400
+```json
+{
+  "status": "error",
+  "error": { "code": "DATABASE_ERROR", "message": "Failed to fetch items: ..." }
+}
+```
+
+---
+
+**2. POST `/api/shop/purchase`**
+
+**Description:** Purchase an item for a user in a specific game.
+
+**Request Body:**
+
+```json
+{
+  "userId": 1,
+  "itemId": 2,
+  "idempotencyKey": "unique-key",
+  "gameId": 1
+}
+```
+
+**Responses:**
+
+- `201 Created` (purchase successful)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "userId": 1,
+    "itemId": 2,
+    "currencyDeducted": 75,
+    "timestamp": "2025-09-22T18:00:00.000Z",
+    "gameId": 1,
+    "idempotencyKey": "unique-key"
   }
-  ```
+}
+```
 
-- **GET** `/api/shop/purchases/:userId`
-  **Response (200)**
+- `400 Bad Request` (invalid input or insufficient currency)
 
-  ```json
-  [
-    {
-      "purchaseId": "p001",
-      "itemId": "i101",
-      "name": "Bulletproof Vest",
-      "quantity": 1,
-      "timestamp": "2025-09-11T17:00:00Z"
-    },
-    {
-      "purchaseId": "p002",
-      "itemId": "i102",
-      "name": "Fake ID",
-      "quantity": 2,
-      "timestamp": "2025-09-11T18:00:00Z"
-    }
-  ]
-  ```
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "Invalid userId, itemId, idempotencyKey, or gameId"
+  }
+}
+```
+
+- `404 Not Found` (item or supply missing)
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "Item not found or out of stock in this game"
+  }
+}
+```
+
+- `409 Conflict` (idempotency conflict, handled internally)
+
+```json
+{
+  "status": "error",
+  "error": { "code": "CONFLICT", "message": "Purchase already exists" }
+}
+```
+
+- `500 Internal Server Error` (DB failure)
+
+---
+
+**3. GET `/api/shop/purchases/:userId`**
+
+**Description:** Get all purchases made by a user.
+
+**Request Params:** `userId` (integer)
+
+**Responses:**
+
+- `200 OK`
+
+```json
+{
+  "status": "success",
+  "data": {
+    "purchases": [
+      {
+        "id": 1,
+        "userId": 1,
+        "itemId": 2,
+        "currencyDeducted": 75,
+        "timestamp": "...",
+        "gameId": 1,
+        "idempotencyKey": "..."
+      }
+    ]
+  }
+}
+```
+
+- `400 Bad Request` (invalid userId)
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "userId must be a valid integer"
+  }
+}
+```
+
+- `404 Not Found` (no purchases found)
+
+```json
+{
+  "status": "error",
+  "error": { "code": "NOT_FOUND", "message": "No purchases found for user" }
+}
+```
+
+- `500 Internal Server Error`
+
+---
+
+**4. PUT `/api/shop/items/:id`**
+
+**Description:** Update an item’s name and price.
+
+**Request Params:** `id` (item ID)
+**Request Body:**
+
+```json
+{
+  "name": "Holy Cross",
+  "price": 80
+}
+```
+
+**Responses:**
+
+- `200 OK` (update successful)
+
+```json
+{
+  "status": "success",
+  "data": { "id": 2, "name": "Holy Cross", "price": 80 }
+}
+```
+
+- `400 Bad Request` (invalid input)
+
+```json
+{
+  "status": "error",
+  "error": { "code": "INVALID_INPUT", "message": "Invalid itemId or price" }
+}
+```
+
+- `404 Not Found` (item missing)
+
+```json
+{
+  "status": "error",
+  "error": { "code": "NOT_FOUND", "message": "Item not found" }
+}
+```
+
+- `500 Internal Server Error`
+
+---
+
+**5. DELETE `/api/shop/items/:id`**
+
+**Description:** Delete an item by ID.
+
+**Request Params:** `id` (item ID)
+
+**Responses:**
+
+- `200 OK` (delete successful)
+
+```json
+{
+  "status": "success",
+  "data": {}
+}
+```
+
+- `400 Bad Request` (invalid itemId)
+- `404 Not Found` (item missing)
+- `500 Internal Server Error`
+
+---
+
+**6. POST `/api/shop/games`**
+
+**Description:** Create initial supplies for a game.
+
+**Request Body:**
+
+```json
+{
+  "gameId": 1
+}
+```
+
+**Responses:**
+
+- `201 Created`
+
+```json
+{
+  "status": "success",
+  "data": {
+    "supplies": [
+      { "id": 1, "gameId": 1, "itemId": 1, "quantity": 10 },
+      { "id": 2, "gameId": 1, "itemId": 2, "quantity": 10 }
+    ]
+  }
+}
+```
+
+- `400 Bad Request` (invalid gameId)
+- `409 Conflict` (supplies already exist)
+- `500 Internal Server Error`
+
+---
+
+**7. POST `/api/shop/games/:gameId/resupply`**
+
+**Description:** Add 10 to the quantity of all items in the game.
+
+**Request Params:** `gameId`
+
+**Responses:**
+
+- `200 OK`
+
+```json
+{
+  "status": "success",
+  "data": {
+    "supplies": [
+      { "id": 1, "gameId": 1, "itemId": 1, "quantity": 20 },
+      { "id": 2, "gameId": 1, "itemId": 2, "quantity": 20 }
+    ]
+  }
+}
+```
+
+- `400 Bad Request` (invalid gameId)
+- `404 Not Found` (no supplies for this game)
+- `500 Internal Server Error`
 
 ---
 
 ### **Roleplay Service API**
 
-- **POST** `/api/roleplay/action`
-  **Request**
+**1. GET `/api/roleplay/roles`**
 
-  ```json
-  {
-    "userId": "u123",
-    "action": "kill",
-    "targetId": "u456"
+**Description:** Fetch all available roles.
+
+**Request:** None
+
+**Responses:**
+
+- `200 OK`
+
+```json
+{
+  "status": "success",
+  "data": {
+    "roles": [
+      { "id": 1, "name": "Vampire", "ability": "kill" },
+      { "id": 2, "name": "Doctor", "ability": "heal" }
+    ]
   }
-  ```
+}
+```
 
-  **Response (200)**
+- `500 Internal Server Error`
 
-  ```json
-  {
-    "message": "Action executed",
-    "action": "kill",
-    "result": "target eliminated"
+```json
+{
+  "status": "error",
+  "error": { "code": "DATABASE_ERROR", "message": "Failed to fetch roles: ..." }
+}
+```
+
+---
+
+**2. POST `/api/roleplay/actions`**
+
+**Description:** Create one or multiple actions in a game.
+
+**Request Body:**
+
+```json
+{
+  "game_id": 1,
+  "player_id": 10,
+  "role_id": 2,
+  "target_id": 15,
+  "idempotency_key": "unique-key",
+  "action_types": ["heal"]
+}
+```
+
+**Responses:**
+
+- `200 OK` (actions created)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "actions": [
+      {
+        "id": 1,
+        "game_id": 1,
+        "player_id": 10,
+        "role_id": 2,
+        "target_id": 15,
+        "action_type": "heal",
+        "outcome": "success",
+        "timestamp": "2025-09-22T18:00:00.000Z",
+        "idempotency_key": "unique-key"
+      }
+    ]
   }
-  ```
+}
+```
 
-- **GET** `/api/roleplay/roles/:userId`
-  **Response (200)**
+- `400 Bad Request` (invalid input or invalid action)
 
-  ```json
-  {
-    "userId": "u123",
-    "role": "Mafia",
-    "allowedActions": ["kill", "hide"]
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "idempotency_key and at least one action_type are required"
   }
-  ```
+}
+```
 
-- **POST** `/api/roleplay/announcement`
-  **Request**
+- `404 Not Found` (role not found)
 
-  ```json
-  {
-    "action": "Sheriff guess",
-    "message": "Sheriff investigated a player"
+```json
+{
+  "status": "error",
+  "error": { "code": "NOT_FOUND", "message": "Role not found" }
+}
+```
+
+- `500 Internal Server Error` (DB failure)
+
+---
+
+**3. GET `/api/roleplay/actions/{game_id}`**
+
+**Description:** Fetch all actions in a specific game.
+
+**Request Params:** `game_id` (integer)
+
+**Responses:**
+
+- `200 OK`
+
+```json
+{
+  "status": "success",
+  "data": {
+    "actions": [
+      {
+        "id": 1,
+        "game_id": 1,
+        "player_id": 10,
+        "role_id": 2,
+        "target_id": 15,
+        "action_type": "heal",
+        "outcome": "success",
+        "timestamp": "2025-09-22T18:00:00.000Z",
+        "idempotency_key": "unique-key"
+      }
+    ]
   }
-  ```
+}
+```
 
-  **Response (200)**
+- `400 Bad Request` (invalid `game_id`)
 
-  ```json
-  {
-    "announcement": "Sheriff has investigated someone"
+```json
+{
+  "status": "error",
+  "error": { "code": "INVALID_INPUT", "message": "Invalid game_id" }
+}
+```
+
+- `404 Not Found` (no actions found)
+
+```json
+{
+  "status": "error",
+  "error": { "code": "NOT_FOUND", "message": "No actions found for this game" }
+}
+```
+
+- `500 Internal Server Error`
+
+---
+
+**4. POST `/api/roleplay/items/apply`**
+
+**Description:** Apply an item effect to an action (e.g., block kill or heal).
+
+**Request Body:**
+
+```json
+{
+  "game_id": 1,
+  "player_id": 10,
+  "item_id": 1,
+  "target_action_id": 5
+}
+```
+
+**Responses:**
+
+- `200 OK` (item effect applied)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "item_id": 1,
+    "role_id": 2,
+    "effect": "block_kill",
+    "game_id": 1
   }
-  ```
+}
+```
+
+- `400 Bad Request` (invalid input or invalid item)
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "Invalid game_id, player_id, item_id, or target_action_id"
+  }
+}
+```
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "INVALID_ITEM",
+    "message": "Invalid item or no effect defined"
+  }
+}
+```
+
+- `404 Not Found` (action or role missing)
+
+```json
+{
+  "status": "error",
+  "error": { "code": "NOT_FOUND", "message": "Action not found" }
+}
+```
 
 ---
 
