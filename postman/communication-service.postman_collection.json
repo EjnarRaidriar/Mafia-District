@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "5c2f6748-bbec-4181-bc21-42386b33ed20",
+		"name": "communication-service",
+		"description": "API collection for the Communication Service microservice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48826621",
+		"_collection_link": "https://my-team-0261.postman.co/workspace/ce6c1a5f-4da7-464a-a25b-21ded033960d/collection/48826621-5c2f6748-bbec-4181-bc21-42386b33ed20?action=share&source=collection_link&creator=48826621"
+	},
+	"item": [
+		{
+			"name": "Send Message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": {\n        \"chat_id\": \"17679119-e852-448a-8ffe-4e1590b59f9e\",\n        \"sender_id\": \"u2\",\n        \"content\": \"Hello, this is a test message too!\"\n    },\n    \"sender_role\": \"villager\",\n    \"sender_location\": \"hall\",\n    \"game_id\": \"124\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/message",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"message"
+					]
+				},
+				"description": "Send a message to a chat"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Chat Messages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/chat?chat_id=17679119-e852-448a-8ffe-4e1590b59f9e&game_id=124&role=villager&location=hall",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"chat"
+					],
+					"query": [
+						{
+							"key": "chat_id",
+							"value": "17679119-e852-448a-8ffe-4e1590b59f9e"
+						},
+						{
+							"key": "game_id",
+							"value": "124"
+						},
+						{
+							"key": "role",
+							"value": "villager"
+						},
+						{
+							"key": "location",
+							"value": "hall"
+						}
+					]
+				},
+				"description": "Get messages from a specific chat"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Chats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/chats?game_id=124&role=villager&location=square",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"chats"
+					],
+					"query": [
+						{
+							"key": "game_id",
+							"value": "124"
+						},
+						{
+							"key": "role",
+							"value": "villager"
+						},
+						{
+							"key": "location",
+							"value": "square"
+						}
+					]
+				},
+				"description": "Get available chats for a user"
+			},
+			"response": []
+		},
+		{
+			"name": "Close Chat",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"chat_id\": \"17679119-e852-448a-8ffe-4e1590b59f9e\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/close",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"close"
+					]
+				},
+				"description": "Close an existing chat room"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Chat",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"game_id\": \"123\",\n  \"type\": \"location\",\n  \"selector\": \"hall\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/create",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"create"
+					]
+				},
+				"description": "Create a new chat room"
+			},
+			"response": []
+		}
+	]
+}
