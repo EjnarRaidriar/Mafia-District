@@ -1,0 +1,26 @@
+services:
+  user-management-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata_user-management:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432"
+  user-management-service:
+    image: edyson1202/user-management-service:1.0
+    restart: always
+    environment:
+      POSTGRES_HOST: user-management-db
+      POSTGRES_PORT: 5432
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - user-management-db
+volumes:
+  pgdata_user-management:

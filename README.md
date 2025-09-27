@@ -368,6 +368,8 @@ Image
 
 ### **User Management Service API**
 
+#### POSTMAN: https://www.postman.com/my-team-0261/workspace/pad
+
 - **GET** `/api/user/:id`
   **Response (200)**
 
@@ -434,6 +436,8 @@ Image
 ---
 
 ### **Game Service API**
+
+#### POSTMAN: https://www.postman.com/my-team-0261/workspace/pad
 
 - **POST** `/api/game/lobbies`
   **Request**
