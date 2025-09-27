@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "07504697-d041-439b-9436-0f670a4f71a9",
-		"name": "Roleplay API",
+		"_postman_id": "a4a6f69a-afd0-4679-b500-2fd412b1b225",
+		"name": "roleplay-service",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20523459"
+		"_exporter_id": "48826621",
+		"_collection_link": "https://my-team-0261.postman.co/workspace/ce6c1a5f-4da7-464a-a25b-21ded033960d/collection/48826621-a4a6f69a-afd0-4679-b500-2fd412b1b225?action=share&source=collection_link&creator=48826621"
 	},
 	"item": [
 		{

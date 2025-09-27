@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "879d4ed5-8bb1-4caf-9fe8-63bf25ae83f2",
-		"name": "Shop API",
+		"_postman_id": "c485d055-8ca4-49a5-8305-6d410c26d03f",
+		"name": "shop-service",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20523459"
+		"_exporter_id": "48826621",
+		"_collection_link": "https://my-team-0261.postman.co/workspace/ce6c1a5f-4da7-464a-a25b-21ded033960d/collection/48826621-c485d055-8ca4-49a5-8305-6d410c26d03f?action=share&source=collection_link&creator=48826621"
 	},
 	"item": [
 		{
