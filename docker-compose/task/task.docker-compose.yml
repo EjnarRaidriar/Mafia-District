@@ -10,8 +10,7 @@ services:
       - "${TASK_DB_HOST_PORT}:5432"
     volumes:
       - ${TASK_DB_DATA_VOLUME}:/var/lib/postgresql/data
-      - ${TASK_DB_SCHEMA_FILE}:/docker-entrypoint-initdb.d/00-schema.sh:ro
-      - ${TASK_DB_SEED_FILE}:/docker-entrypoint-initdb.d/10-seed.sh:ro
+      - ${TASK_DB_INIT_FOLDER}:/docker-entrypoint-initdb.d/
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${TASK_DB_USER}"]
       interval: 10s

@@ -1,5 +1,5 @@
 services:
-  comm-db:
+  communication-db:
     image: "postgres:${DB_VERSION}"
     container_name: ${DB_HOST}
     environment:
@@ -9,7 +9,7 @@ services:
 #    ports:
 #      - "5432:5432"
     volumes:
-      - comm-db-data:/var/lib/postgresql/data
+      - communication-db-data:/var/lib/postgresql/data
       - ./db/init:/init
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
@@ -17,7 +17,7 @@ services:
       timeout: 5s
       retries: 5
 
-  comm-service:
+  communication-service:
     image: "niksaysit/pad-communication-service:${SVC_VERSION}"
     container_name: ${SVC_HOST}
     environment:
@@ -29,9 +29,9 @@ services:
     ports:
       - "${SVC_PORT}:8080"
     depends_on:
-      comm-db:
+      communication-db:
         condition: service_healthy
 
 volumes:
-  comm-db-data:
+  communication-db-data:
     name: "${DB_VOLUME}"

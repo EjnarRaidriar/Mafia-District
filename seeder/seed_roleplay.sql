@@ -1,5 +1,5 @@
 -- Seed script for Roleplay Service database (roleplay_db)
--- Run this with: psql -h localhost -p 7100 -U user -d roleplay_db -f seed_roleplay.sql
+-- Run this with: psql -h localhost -p 7200 -U user -d roleplay_db -f seed_roleplay.sql
 
 DO $$
 BEGIN
