@@ -15,7 +15,6 @@ services:
     restart: always
     environment:
       POSTGRES_HOST: user-management-db
-      POSTGRES_PORT: 5432
     env_file:
       - .env
     ports:
