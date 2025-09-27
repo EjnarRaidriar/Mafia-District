@@ -1,0 +1,5 @@
+include:
+  - path: task.docker-compose.yml
+    env_file: task.env
+  - path: voting.docker-compose.yml
+    env_file: voting.env
