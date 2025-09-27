@@ -1,0 +1,29 @@
+services:
+  town-db:
+    image: ${TOWN_DB_IMAGE_NAME}
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${TOWN_DB_NAME}
+      POSTGRES_USER: ${TOWN_DB_USER}
+      POSTGRES_PASSWORD: ${TOWN_DB_PASSWORD}
+    # ports:
+    #   - "${TOWN_DB_PORT}:5432"
+    volumes:
+      - town_db_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d/
+
+  town-service:
+    platform: linux/amd64
+    image: ${TOWN_SERVICE_IMAGE_NAME}
+    build: .
+    environment:
+      DATABASE_URL: "host=${TOWN_DB_HOST} user=${TOWN_DB_USER} password=${TOWN_DB_PASSWORD} dbname=${TOWN_DB_NAME} sslmode=${SSL_MODE}"
+    ports:
+      - "${TOWN_SERVICE_PORT}:8000"
+    depends_on:
+      - town-db
+    
+
+volumes:
+  town_db_data:
