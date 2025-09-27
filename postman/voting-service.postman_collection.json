@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "81ce9aaa-1536-438d-8f80-f83db26f0e1b",
+		"name": "voting-service",
+		"description": "Collection covering the Mafia Voting Service HTTP API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48826621",
+		"_collection_link": "https://my-team-0261.postman.co/workspace/ce6c1a5f-4da7-464a-a25b-21ded033960d/collection/48826621-81ce9aaa-1536-438d-8f80-f83db26f0e1b?action=share&source=collection_link&creator=48826621"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/healthz",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"healthz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Vote",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"lobbyId\": \"demo-lobby\",\n  \"day\": 1,\n  \"voterId\": \"voter-1\",\n  \"targetId\": \"player-2\",\n  \"idempotencyKey\": \"postman-demo-1\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/voting/vote",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"voting",
+						"vote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Results",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/voting/results/demo-lobby?day=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"voting",
+						"results",
+						"demo-lobby"
+					],
+					"query": [
+						{
+							"key": "day",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get History",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/voting/history/voter-1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"voting",
+						"history",
+						"voter-1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		}
+	]
+}

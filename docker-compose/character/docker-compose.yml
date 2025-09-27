@@ -1,0 +1,31 @@
+services:
+  character-db:
+    image: ${CHARACTER_DB_IMAGE_NAME}
+    container_name: "${CHARACTER_DB_HOST}"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${CHARACTER_DB_NAME}
+      POSTGRES_USER: ${CHARACTER_DB_USER}
+      POSTGRES_PASSWORD: ${CHARACTER_DB_PASSWORD}
+    # ports:
+    #   - "${CHARACTER_DB_PORT}:5432"
+    volumes:
+      - character_db_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d/
+
+  character-service:
+    platform: linux/amd64
+    image: ${CHARACTER_SERVICE_IMAGE_NAME}
+    build: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "postgres://${CHARACTER_DB_USER}:${CHARACTER_DB_PASSWORD}@${CHARACTER_DB_HOST}:5432/${CHARACTER_DB_NAME}"
+    ports:
+      - "${CHARACTER_SERVICE_PORT}:8080"
+    depends_on:
+      - character-db
+
+volumes:
+  character_db_data:
