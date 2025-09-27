@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "5c0fa8f2-a26b-45a0-8434-95d0fbf2072d",
+		"name": "rumors-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48826621",
+		"_collection_link": "https://my-team-0261.postman.co/workspace/ce6c1a5f-4da7-464a-a25b-21ded033960d/collection/48826621-5c0fa8f2-a26b-45a0-8434-95d0fbf2072d?action=share&source=collection_link&creator=48826621"
+	},
+	"item": [
+		{
+			"name": "Create Rumor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"content\": \"A user with the green hat has bloody hands\",\n  \"game_id\": \"g2\",\n  \"available_roles\": [\"villager\", \"mafia\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase Rumor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": {\n        \"id\": \"u6\",\n        \"role\": \"villager\",\n        \"currency\": 100\n    } ,\n  \"game_id\": \"g1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/purchase",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Rumors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/get/g1/u4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"get",
+						"g1",
+						"u4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

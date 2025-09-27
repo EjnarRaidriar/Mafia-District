@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "fab6fd1a-c46f-46ac-8403-79da1f78774c",
+		"name": "task-service",
+		"description": "Postman collection for Mafia District Task Service REST API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48826621",
+		"_collection_link": "https://my-team-0261.postman.co/workspace/ce6c1a5f-4da7-464a-a25b-21ded033960d/collection/48826621-fab6fd1a-c46f-46ac-8403-79da1f78774c?action=share&source=collection_link&creator=48826621"
+	},
+	"item": [
+		{
+			"name": "Assign Tasks",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"lobbyId\": \"{{lobbyId}}\",\n  \"day\": 2,\n  \"tasks\": [\n    { \"userId\": \"{{userId}}\", \"description\": \"Scout the docks\", \"reward\": 15 }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/task/assign-day",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"task",
+						"assign-day"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Tasks For User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/task/user/{{userId}}?lobbyId={{lobbyId}}&day=2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"task",
+						"user",
+						"{{userId}}"
+					],
+					"query": [
+						{
+							"key": "lobbyId",
+							"value": "{{lobbyId}}"
+						},
+						{
+							"key": "day",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/task/{{taskId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"task",
+						"{{taskId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"taskId\": \"{{taskId}}\",\n  \"userId\": \"{{userId}}\",\n  \"lobbyId\": \"{{lobbyId}}\",\n  \"idempotencyKey\": \"demo-key\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/task/complete",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"task",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8081"
+		},
+		{
+			"key": "lobbyId",
+			"value": "l-demo"
+		},
+		{
+			"key": "userId",
+			"value": "u77"
+		},
+		{
+			"key": "taskId",
+			"value": "{{lastTaskId}}",
+			"description": "Populate with an ID returned from the assign-day endpoint"
+		}
+	]
+}

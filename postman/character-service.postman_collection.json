@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "87e4b47c-80a0-4e32-93fc-271bc585fb72",
+		"name": "character-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48826621",
+		"_collection_link": "https://my-team-0261.postman.co/workspace/ce6c1a5f-4da7-464a-a25b-21ded033960d/collection/48826621-87e4b47c-80a0-4e32-93fc-271bc585fb72?action=share&source=collection_link&creator=48826621"
+	},
+	"item": [
+		{
+			"name": "Customize character",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"u123\",\n    \"appearance\": {\n        \"hair\": \"brown\",\n        \"coat\": \"green\",\n        \"hat\": \"panama\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8080/api/character/customize",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"character",
+						"customize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Character data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "0.0.0.0:8080/api/character/u123",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"character",
+						"u123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add to inventory",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"u123\",\n    \"itemId\": \"i103\",\n    \"itemName\": \"Bat\",\n    \"quantityChange\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8080/api/character/inventory",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"character",
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
