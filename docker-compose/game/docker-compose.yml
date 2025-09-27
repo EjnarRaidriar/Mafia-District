@@ -8,16 +8,17 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata_game:/var/lib/postgresql/data
-    ports:
-      - "${POSTGRES_PORT}:5432"
+    # ports:
+    #   - "${POSTGRES_PORT}:5432"
   game-service:
     image: edyson1202/game-service:1.0
+    platform: linux/amd64
     restart: always
     environment:
       POSTGRES_HOST: game-db
       POSTGRES_PORT: 5432
     env_file:
-      - .env
+      - game.env
     ports:
       - "${PORT}:${PORT}"
     depends_on:
