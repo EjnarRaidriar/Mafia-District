@@ -1,0 +1,36 @@
+services:
+  task-db:
+    image: ${TASK_DB_IMAGE}
+    container_name: ${TASK_DB_CONTAINER_NAME}
+    environment:
+      POSTGRES_USER: ${TASK_DB_USER}
+      POSTGRES_PASSWORD: ${TASK_DB_PASSWORD}
+      POSTGRES_DB: ${TASK_DB_NAME}
+    ports:
+      - "${TASK_DB_HOST_PORT}:5432"
+    volumes:
+      - ${TASK_DB_DATA_VOLUME}:/var/lib/postgresql/data
+      - ${TASK_DB_SCHEMA_FILE}:/docker-entrypoint-initdb.d/00-schema.sh:ro
+      - ${TASK_DB_SEED_FILE}:/docker-entrypoint-initdb.d/10-seed.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TASK_DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  task-service:
+    image: ${TASK_SERVICE_IMAGE}
+    container_name: ${TASK_SERVICE_CONTAINER_NAME}
+    depends_on:
+      task-db:
+        condition: service_healthy
+    environment:
+      PORT: ${TASK_SERVICE_PORT}
+      SERVICE_NAME: ${TASK_SERVICE_NAME}
+      DB_DSN: ${TASK_SERVICE_DB_DSN}
+    ports:
+      - "${TASK_SERVICE_HOST_PORT}:${TASK_SERVICE_PORT}"
+    restart: unless-stopped
+
+volumes:
+  task-service-db-data:

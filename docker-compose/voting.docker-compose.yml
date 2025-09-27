@@ -1,0 +1,15 @@
+services:
+  voting-service:
+    image: ${VOTING_SERVICE_IMAGE}
+    container_name: ${VOTING_SERVICE_CONTAINER_NAME}
+    environment:
+      PORT: ${VOTING_SERVICE_PORT}
+      DATABASE_URL: ${VOTING_DATABASE_URL}
+    volumes:
+      - ${VOTING_DATA_VOLUME}:/app/data
+    ports:
+      - "${VOTING_SERVICE_HOST_PORT}:${VOTING_SERVICE_PORT}"
+    restart: unless-stopped
+
+volumes:
+  voting-service-data:
