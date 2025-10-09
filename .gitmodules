@@ -29,5 +29,5 @@
 	path = microservices/town-service
 	url = git@github.com:EjnarRaidriar/Town-Service.git
 [submodule "microservices/gateway"]
-	path = /microservices/gateway
-	url = git@github.com:RodionClepa/mafia-gateway.git
+	path = microservices/gateway
+	url = https://github.com/RodionClepa/mafia-gateway
