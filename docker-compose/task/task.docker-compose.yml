@@ -27,9 +27,16 @@ services:
       PORT: ${TASK_SERVICE_PORT}
       SERVICE_NAME: ${TASK_SERVICE_NAME}
       DB_DSN: ${TASK_SERVICE_DB_DSN}
+      GATEWAY_URL: ${TASK_GATEWAY_URL}
     ports:
       - "${TASK_SERVICE_HOST_PORT}:${TASK_SERVICE_PORT}"
+    networks:
+      - shared-net
     restart: unless-stopped
+
+networks:
+  shared-net:
+    external: true
 
 volumes:
   task-service-db-data:

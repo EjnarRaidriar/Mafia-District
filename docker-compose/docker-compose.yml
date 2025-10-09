@@ -1,4 +1,5 @@
 include:
+  - path: ../microservices/gateway/docker-compose.yml
   - path: task/task.docker-compose.yml
     env_file: task/task.env
   - path: voting/voting.docker-compose.yml
