@@ -11,6 +11,8 @@ services:
     volumes:
       - ${TASK_DB_DATA_VOLUME}:/var/lib/postgresql/data
       - ${TASK_DB_INIT_FOLDER}:/docker-entrypoint-initdb.d/
+    networks:
+      - shared-net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${TASK_DB_USER}"]
       interval: 10s
@@ -27,9 +29,16 @@ services:
       PORT: ${TASK_SERVICE_PORT}
       SERVICE_NAME: ${TASK_SERVICE_NAME}
       DB_DSN: ${TASK_SERVICE_DB_DSN}
+      GATEWAY_URL: ${TASK_GATEWAY_URL}
     ports:
       - "${TASK_SERVICE_HOST_PORT}:${TASK_SERVICE_PORT}"
+    networks:
+      - shared-net
     restart: unless-stopped
+
+networks:
+  shared-net:
+    external: true
 
 volumes:
   task-service-db-data:

@@ -8,6 +8,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata_game:/var/lib/postgresql/data
+    networks:
+      - shared-net
     # ports:
     #   - "${POSTGRES_PORT}:5432"
   game-service:
@@ -23,5 +25,11 @@ services:
       - "${PORT}:${PORT}"
     depends_on:
       - game-db
+    networks:
+      - shared-net 
 volumes:
   pgdata_game:
+
+networks:
+  shared-net:
+    external: true

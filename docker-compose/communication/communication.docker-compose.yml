@@ -16,6 +16,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - shared-net
 
   communication-service:
     image: "niksaysit/pad-communication-service:${SVC_VERSION}"
@@ -31,7 +33,13 @@ services:
     depends_on:
       communication-db:
         condition: service_healthy
+    networks:
+      - shared-net
 
 volumes:
   communication-db-data:
     name: "${DB_VOLUME}"
+
+networks:
+  shared-net:
+    external: true

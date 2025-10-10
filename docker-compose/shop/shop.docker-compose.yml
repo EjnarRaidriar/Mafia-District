@@ -11,6 +11,8 @@ services:
       - shop-db-data:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_EXPOSE_PORT}:5432"
+    networks:
+      - shared-net
 
   shop-service:
     platform: linux/amd64
@@ -22,6 +24,12 @@ services:
       - "${PORT}:${PORT}"
     depends_on:
       - shop-db
+    networks:
+      - shared-net
 
 volumes:
   shop-db-data:
+
+networks:
+  shared-net:
+    external: true

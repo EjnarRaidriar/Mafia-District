@@ -1,0 +1,14 @@
+services:
+  gateway:
+    platform: linux/amd64
+    image: crodion/gateway:1.0.1
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config.json:/app/config.json
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    external: true

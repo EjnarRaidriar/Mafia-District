@@ -5,11 +5,18 @@ services:
     environment:
       PORT: ${VOTING_SERVICE_PORT}
       DATABASE_URL: ${VOTING_DATABASE_URL}
+      GATEWAY_URL: ${VOTING_GATEWAY_URL}
     volumes:
       - ${VOTING_DATA_VOLUME}:/app/data
     ports:
       - "${VOTING_SERVICE_HOST_PORT}:${VOTING_SERVICE_PORT}"
+    networks:
+      - shared-net
     restart: unless-stopped
+
+networks:
+  shared-net:
+    external: true
 
 volumes:
   voting-service-data:
