@@ -4,5 +4,9 @@
   "/api/task": "http://task-service:8081/api/task",
   "/api/voting": "http://voting-service:8071",
   "/api/communication": "http://communication-service:8080",
-  "/api/rumors": "http://rumors-service:8080"
+  "/api/rumors": "http://rumors-service:8080",
+  "/api/character": "http://character-service:4242/api/character",
+  "/api/town": "http://town-service:4343/api/town",
+  "/api/game": "http://game-service:4141",
+  "/api/user": "http://user-management-service:4040"
 }
