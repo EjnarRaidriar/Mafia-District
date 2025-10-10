@@ -1,0 +1,8 @@
+{
+  "/api/shop": "http://shop-service:6000/api/shop",
+  "/api/roleplay": "http://roleplay-service:8200/api/roleplay",
+  "/api/task": "http://task-service:8081/api/task",
+  "/api/voting": "http://voting-service:8071",
+  "/api/communication": "http://communication-service:8080",
+  "/api/rumors": "http://rumors-service:8080"
+}
