@@ -13,8 +13,8 @@ services:
       - roleplay-db-data:/var/lib/postgresql/data
     ports:
       - "${DB_EXPOSE_PORT}:5432"
-    networks:
-      - roleplay-network
+    # networks:
+    #   - roleplay-network
 
   roleplay-service:
     platform: linux/amd64
@@ -31,12 +31,12 @@ services:
       - DB_NAME=${DB_NAME}
     depends_on:
       - roleplay-db
-    networks:
-      - roleplay-network
+    # networks:
+    #   - roleplay-network
 
 volumes:
   roleplay-db-data:
 
-networks:
-  roleplay-network:
-    driver: bridge
+# networks:
+#   roleplay-network:
+#     driver: bridge
