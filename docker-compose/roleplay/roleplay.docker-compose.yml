@@ -13,12 +13,13 @@ services:
       - roleplay-db-data:/var/lib/postgresql/data
     ports:
       - "${DB_EXPOSE_PORT}:5432"
-    # networks:
-    #   - roleplay-network
+    networks:
+      - roleplay-network
+      - shared-net
 
   roleplay-service:
     platform: linux/amd64
-    image: crodion/roleplay-service:1.0.2
+    image: crodion/roleplay-service:1.0.4
     ports:
       - "${SERVICE_PORT}:${SERVICE_PORT}"
     env_file:
@@ -31,12 +32,13 @@ services:
       - DB_NAME=${DB_NAME}
     depends_on:
       - roleplay-db
-    # networks:
-    #   - roleplay-network
+    networks:
+      - roleplay-network
+      - shared-net
 
 volumes:
   roleplay-db-data:
 
-# networks:
-#   roleplay-network:
-#     driver: bridge
+networks:
+  roleplay-network:
+    driver: bridge
