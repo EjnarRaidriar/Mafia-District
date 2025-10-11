@@ -13,9 +13,7 @@ services:
 
   gateway:
     platform: linux/amd64
-    build:
-      context: ../../microservices/gateway
-      dockerfile: Dockerfile
+    image: crodion/gateway:1.0.3
     ports:
       - "3000:3000"
     volumes:

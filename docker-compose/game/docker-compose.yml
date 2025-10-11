@@ -13,9 +13,7 @@ services:
     # ports:
     #   - "${POSTGRES_PORT}:5432"
   game-service:
-    build:
-      context: ../../microservices/game-service/game-service
-      dockerfile: Dockerfile
+    image: edyson1202/game-service:2.0
     platform: linux/amd64
     restart: always
     environment:
