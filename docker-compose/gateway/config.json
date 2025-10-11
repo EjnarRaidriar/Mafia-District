@@ -1,12 +1,12 @@
 {
-  "/api/shop": "http://shop-service:6000/api/shop",
-  "/api/roleplay": "http://roleplay-service:8200/api/roleplay",
+  "/api/game": "http://docker-compose-game-service-1:4141",
+  "/api/shop": "http://docker-compose-shop-service-1:6000/api/shop",
+  "/api/roleplay": "http://docker-compose-roleplay-service-1:8200/api/roleplay",
   "/api/task": "http://task-service:8081/api/task",
   "/api/voting": "http://voting-service:8071",
+  "/api/character": "http://docker-compose-character-service-1:4242/api/character",
   "/api/communication": "http://communication-service:8080",
   "/api/rumors": "http://rumors-service:8080",
-  "/api/character": "http://character-service:4242/api/character",
-  "/api/town": "http://town-service:4343/api/town",
-  "/api/game": "http://game-service:4141",
-  "/api/user": "http://user-management-service:4040"
+  "/api/town": "http://docker-compose-town-service-1:4343/api/town",
+  "/api/user-management": "http://docker-compose-user-management-service-1:4040"
 }

@@ -1,0 +1,1777 @@
+{
+	"info": {
+		"_postman_id": "gateway-complete-collection",
+		"name": "Gateway Complete API Collection",
+		"description": "Complete API collection for all services through the Gateway with JWT Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Generate user token if not exists",
+					"if (!pm.environment.get('user_token')) {",
+					"    const tokenRequest = {",
+					"        url: pm.environment.get('gateway_url') + '/api/gateway/user-token',",
+					"        method: 'POST',",
+					"        header: {",
+					"            'Content-Type': 'application/json'",
+					"        },",
+					"        body: {",
+					"            mode: 'raw',",
+					"            raw: JSON.stringify({",
+					"                userId: 'test_user_' + Date.now(),",
+					"                username: 'Test User',",
+					"                role: 'user'",
+					"            })",
+					"        }",
+					"    };",
+					"    ",
+					"    pm.sendRequest(tokenRequest, (err, response) => {",
+					"        if (err) {",
+					"            console.log('Error generating token:', err);",
+					"        } else {",
+					"            const token = response.json().token;",
+					"            pm.environment.set('user_token', token);",
+					"            console.log('Generated user token:', token);",
+					"        }",
+					"    });",
+					"}"
+				]
+			}
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Generate User Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"test_user_123\",\n  \"username\": \"Test User\",\n  \"role\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/gateway/user-token",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"user-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Service Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"serviceName\": \"game-service\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/gateway/service-token",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"service-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cache Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/gateway/cache/stats",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"cache",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear Cache",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/gateway/cache/clear",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"cache",
+								"clear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gateway Task Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/gateway/task-stats",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"task-stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game Service",
+			"item": [
+				{
+					"name": "Lobby Management",
+					"item": [
+						{
+							"name": "Get All Lobbies",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Lobby by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Lobby",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"maxPlayers\": 6\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Player Management",
+					"item": [
+						{
+							"name": "Add Player to Lobby",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"playerId\": \"{{player_id}}\",\n  \"role\": \"villager\",\n  \"currency\": 1000,\n  \"status\": \"alive\",\n  \"task\": \"Complete daily tasks\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/players",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"players"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Players in Lobby",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/players",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"players"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Player by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{gateway_url}}/api/game/players/{{player_id}}",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"players",
+										"{{player_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service Integrations",
+					"item": [
+						{
+							"name": "Create Character for Player",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"playerId\": \"{{player_id}}\",\n  \"role\": \"vampire\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/create-character",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"create-character"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Shop Items",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/shop/items",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"shop",
+										"items"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Purchase Shop Item",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"playerId\": \"{{player_id}}\",\n  \"itemId\": 1,\n  \"idempotencyKey\": \"purchase-{{$timestamp}}\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/shop/purchase",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"shop",
+										"purchase"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Game Message",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"senderId\": \"{{player_id}}\",\n  \"content\": \"Hello from Game Service!\",\n  \"chatId\": \"chat_{{lobby_id}}\",\n  \"role\": \"villager\",\n  \"location\": \"lobby\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/send-message",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"send-message"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Game Rumor",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"A mysterious figure was seen near the town hall at midnight\",\n  \"availableRoles\": [\"villager\", \"sheriff\"]\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/create-rumor",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"create-rumor"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Voting & Game Ending",
+					"item": [
+						{
+							"name": "Vote to Eliminate",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-service-call",
+										"value": "true"
+									},
+									{
+										"key": "x-internal-service",
+										"value": "true"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"voterId\": \"{{player_id}}\",\n  \"targetId\": \"target_player\",\n  \"idempotencyKey\": \"vote-{{$timestamp}}\",\n  \"day\": 1\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/vote-eliminate",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"vote-eliminate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Vote Results",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/vote-results?day=1",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"vote-results"
+									],
+									"query": [
+										{
+											"key": "day",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "End Game",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{user_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/end-game?day=1",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"lobbies",
+										"{{lobby_id}}",
+										"end-game"
+									],
+									"query": [
+										{
+											"key": "day",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Task Service",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/task/healthz",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"healthz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Tasks to Players",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"lobbyId\": \"lobby_{{lobby_id}}\",\n  \"day\": 1,\n  \"tasks\": [\n    {\n      \"playerId\": \"{{player_id}}\",\n      \"description\": \"Patrol the town square\",\n      \"reward\": 50,\n      \"locationId\": \"town-square\"\n    },\n    {\n      \"playerId\": \"{{player_id}}\",\n      \"description\": \"Investigate suspicious activity\",\n      \"reward\": 75,\n      \"locationId\": \"market\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/task/assign-day",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"assign-day"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Tasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/task/user/{{player_id}}?lobbyId=lobby_{{lobby_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"user",
+								"{{player_id}}"
+							],
+							"query": [
+								{
+									"key": "lobbyId",
+									"value": "lobby_{{lobby_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/task/{{task_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{task_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Service Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/task/stats",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Voting Service",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/voting/healthz",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"voting",
+								"healthz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Vote",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"lobbyId\": \"lobby_{{lobby_id}}\",\n  \"day\": 1,\n  \"voterId\": \"{{player_id}}\",\n  \"targetId\": \"target_player\",\n  \"idempotencyKey\": \"vote-{{$timestamp}}\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/voting/vote",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"voting",
+								"vote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vote Results",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/voting/results/lobby_{{lobby_id}}?day=1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"voting",
+								"results",
+								"lobby_{{lobby_id}}"
+							],
+							"query": [
+								{
+									"key": "day",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Voting Service Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/voting/task/stats",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"voting",
+								"task",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shop Service",
+			"item": [
+				{
+					"name": "Get Shop Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/shop/items",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"shop",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": {{lobby_id}},\n  \"itemId\": 1,\n  \"idempotencyKey\": \"purchase-{{$timestamp}}\",\n  \"gameId\": {{lobby_id}}\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/shop/purchase",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"shop",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Character Service",
+			"item": [
+				{
+					"name": "Get Character",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/character/{{player_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"character",
+								"{{player_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customize Character",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"playerId\": \"{{player_id}}\",\n  \"appearance\": {\n    \"hair\": \"black\",\n    \"coat\": \"red\",\n    \"hat\": \"dark\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/character/customize",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"character",
+								"customize"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Communication Service",
+			"item": [
+				{
+					"name": "Get Available Chats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/communication/chat?chat_id=test&game_id=lobby_{{lobby_id}}&role=villager&location=lobby&user_id={{player_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"communication",
+								"chats"
+							],
+							"query": [
+								{
+									"key": "game_id",
+									"value": "lobby_{{lobby_id}}"
+								},
+								{
+									"key": "role",
+									"value": "villager"
+								},
+								{
+									"key": "location",
+									"value": "lobby"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": {\n    \"chat_id\": \"chat_{{lobby_id}}\",\n    \"sender_id\": \"{{player_id}}\",\n    \"content\": \"Hello from the game!\"\n  },\n  \"sender_role\": \"villager\",\n  \"sender_location\": \"lobby\",\n  \"game_id\": \"lobby_{{lobby_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/communication/message",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"communication",
+								"message"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rumors Service",
+			"item": [
+				{
+					"name": "Create Rumor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"A mysterious figure was seen near the town hall at midnight\",\n  \"game_id\": \"lobby_{{lobby_id}}\",\n  \"available_roles\": [\"villager\", \"sheriff\"]\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/rumors/create",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"rumors",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Rumors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/rumors/get/lobby_{{lobby_id}}/{{player_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"rumors",
+								"get",
+								"lobby_{{lobby_id}}",
+								"{{player_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roleplay Service",
+			"item": [
+				{
+					"name": "Get Roles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/roleplay/roles",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"roleplay",
+								"sessions"
+							],
+							"query": [
+								{
+									"key": "game_id",
+									"value": "lobby_{{lobby_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Actions for Game",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/roleplay/actions/{{lobby_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"roleplay",
+								"actions",
+								"{{lobby_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Action",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"game_id\": {{lobby_id}},\n  \"player_id\": 1,\n  \"role_id\": 1,\n  \"target_id\": 2,\n  \"action_types\": [\"kill\"],\n  \"idempotency_key\": \"action_{{lobby_id}}_{{$timestamp}}\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/roleplay/actions",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"roleplay",
+								"actions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Town Service",
+			"item": [
+				{
+					"name": "Get Town Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/town/locations",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"town",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Town Buildings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/town/buildings",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"town",
+								"buildings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Building by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/town/buildings/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"town",
+								"buildings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter Building",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"player_id\": \"{{player_id}}\",\n  \"building_id\": 1,\n  \"game_id\": \"lobby_{{lobby_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/town/buildings/enter",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"town",
+								"buildings",
+								"enter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Management Service",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"{{player_id}}\",\n  \"email\": \"{{player_id}}@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/user-management/register",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"user-management",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"{{player_id}}\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/user-management/login",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"user-management",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/user-management/profile/{{player_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"user-management",
+								"profile",
+								"{{player_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"{{player_id}}_updated\",\n  \"email\": \"{{player_id}}_updated@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/user-management/profile/{{player_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"user-management",
+								"profile",
+								"{{player_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Complete Game Flow Test",
+			"item": [
+				{
+					"name": "1. Create Lobby",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"maxPlayers\": 6\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"lobbies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Add Players",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"playerId\": \"vampire1\",\n  \"role\": \"vampire\",\n  \"currency\": 1000,\n  \"status\": \"alive\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/players",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"lobbies",
+								"{{lobby_id}}",
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Assign Tasks",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"lobbyId\": \"lobby_{{lobby_id}}\",\n  \"day\": 1,\n  \"tasks\": [\n    {\n      \"playerId\": \"vampire1\",\n      \"description\": \"Patrol the town square\",\n      \"reward\": 50,\n      \"locationId\": \"town-square\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/task/assign-day",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"assign-day"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Get Player Tasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/task/user/vampire1?lobbyId=lobby_{{lobby_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"user",
+								"vampire1"
+							],
+							"query": [
+								{
+									"key": "lobbyId",
+									"value": "lobby_{{lobby_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Vote to Eliminate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"lobbyId\": \"lobby_{{lobby_id}}\",\n  \"day\": 1,\n  \"voterId\": \"vampire1\",\n  \"targetId\": \"sheriff1\",\n  \"idempotencyKey\": \"vote-{{$timestamp}}\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/voting/vote",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"voting",
+								"vote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Get Vote Results",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/voting/results/lobby_{{lobby_id}}?day=1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"voting",
+								"results",
+								"lobby_{{lobby_id}}"
+							],
+							"query": [
+								{
+									"key": "day",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "gateway_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "lobby_id",
+			"value": "6",
+			"type": "string"
+		},
+		{
+			"key": "player_id",
+			"value": "player_6_test",
+			"type": "string"
+		},
+		{
+			"key": "task_id",
+			"value": "t_1760141933111764462_27",
+			"type": "string"
+		}
+	]
+}

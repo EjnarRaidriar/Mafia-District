@@ -1,0 +1,159 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:141.0) Gecko/20100101 Firefox/141.0" version="28.2.0">
+  <diagram name="Updated Architecture" id="updated-architecture">
+    <mxGraphModel dx="1386" dy="1972" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Client -->
+        <mxCell id="client" value="Client (Web/Mobile)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="50" y="50" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- API Gateway with new features -->
+        <mxCell id="gateway" value="&lt;div&gt;&lt;b&gt;API Gateway&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• JWT Authentication&lt;/div&gt;&lt;div&gt;• Redis Caching&lt;/div&gt;&lt;div&gt;• Task Management&lt;/div&gt;&lt;div&gt;• WebSocket Proxy&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="250" y="50" width="150" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Redis Cache -->
+        <mxCell id="redis" value="Redis Cache&lt;br/&gt;&lt;div&gt;• GET Request Cache&lt;/div&gt;&lt;div&gt;• Auth Token Cache&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="450" y="70" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Microservices -->
+        <!-- Game Service with WebSocket -->
+        <mxCell id="game-service" value="&lt;div&gt;&lt;b&gt;Game Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Lobby Management&lt;/div&gt;&lt;div&gt;• WebSocket Server&lt;/div&gt;&lt;div&gt;• Real-time Updates&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="50" y="250" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Task Service with Task Management -->
+        <mxCell id="task-service" value="&lt;div&gt;&lt;b&gt;Task Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Task Assignment&lt;/div&gt;&lt;div&gt;• Task Manager&lt;/div&gt;&lt;div&gt;• Timeout Control&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="250" y="250" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Voting Service with Task Management -->
+        <mxCell id="voting-service" value="&lt;div&gt;&lt;b&gt;Voting Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Vote Processing&lt;/div&gt;&lt;div&gt;• Task Manager&lt;/div&gt;&lt;div&gt;• Concurrent Control&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="450" y="250" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Roleplay Service with WebSocket -->
+        <mxCell id="roleplay-service" value="&lt;div&gt;&lt;b&gt;Roleplay Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Action Management&lt;/div&gt;&lt;div&gt;• WebSocket Broadcast&lt;/div&gt;&lt;div&gt;• Real-time Events&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="650" y="250" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Communication Service -->
+        <mxCell id="communication-service" value="&lt;div&gt;&lt;b&gt;Communication Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Chat Management&lt;/div&gt;&lt;div&gt;• Message Routing&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="50" y="400" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Shop Service -->
+        <mxCell id="shop-service" value="&lt;div&gt;&lt;b&gt;Shop Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Item Management&lt;/div&gt;&lt;div&gt;• Purchase Processing&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="250" y="400" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Character Service -->
+        <mxCell id="character-service" value="&lt;div&gt;&lt;b&gt;Character Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Character Management&lt;/div&gt;&lt;div&gt;• Customization&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="450" y="400" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Town Service -->
+        <mxCell id="town-service" value="&lt;div&gt;&lt;b&gt;Town Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Location Management&lt;/div&gt;&lt;div&gt;• Movement Tracking&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="650" y="400" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Rumors Service -->
+        <mxCell id="rumors-service" value="&lt;div&gt;&lt;b&gt;Rumors Service&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Rumor Management&lt;/div&gt;&lt;div&gt;• Information Spreading&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="50" y="550" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- User Management Service -->
+        <mxCell id="user-management-service" value="&lt;div&gt;&lt;b&gt;User Management&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• User Authentication&lt;/div&gt;&lt;div&gt;• Account Management&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="250" y="550" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Databases -->
+        <mxCell id="postgres-cluster" value="&lt;div&gt;&lt;b&gt;PostgreSQL Cluster&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Game DB&lt;/div&gt;&lt;div&gt;• Task DB&lt;/div&gt;&lt;div&gt;• Voting DB&lt;/div&gt;&lt;div&gt;• Communication DB&lt;/div&gt;&lt;div&gt;• Shop DB&lt;/div&gt;&lt;div&gt;• Character DB&lt;/div&gt;&lt;div&gt;• Town DB&lt;/div&gt;&lt;div&gt;• Rumors DB&lt;/div&gt;&lt;div&gt;• User DB&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="450" y="550" width="200" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- CI/CD Pipeline -->
+        <mxCell id="cicd" value="&lt;div&gt;&lt;b&gt;CI/CD Pipeline&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• GitHub Actions&lt;/div&gt;&lt;div&gt;• Docker Hub&lt;/div&gt;&lt;div&gt;• Auto-deployment&lt;/div&gt;&lt;div&gt;• Version Tagging&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="50" y="700" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Docker Hub -->
+        <mxCell id="docker-hub" value="&lt;div&gt;&lt;b&gt;Docker Hub&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• dragomirmindrescu/gateway&lt;/div&gt;&lt;div&gt;• dragomirmindrescu/task-service&lt;/div&gt;&lt;div&gt;• dragomirmindrescu/voting-service&lt;/div&gt;&lt;div&gt;• dragomirmindrescu/game-service&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="300" y="700" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- WebSocket Connections -->
+        <mxCell id="websocket-connection" value="&lt;div&gt;&lt;b&gt;WebSocket Connections&lt;/b&gt;&lt;/div&gt;&lt;div&gt;• Real-time Communication&lt;/div&gt;&lt;div&gt;• Live Updates&lt;/div&gt;&lt;div&gt;• Event Broadcasting&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="550" y="700" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Connections -->
+        <!-- Client to Gateway -->
+        <mxCell id="client-gateway" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="client" target="gateway" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="client-gateway-label" value="HTTPS/REST" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="client-gateway" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Gateway to Redis -->
+        <mxCell id="gateway-redis" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gateway" target="redis" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway-redis-label" value="Cache" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="gateway-redis" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Gateway to Services -->
+        <mxCell id="gateway-game" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gateway" target="game-service" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway-task" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gateway" target="task-service" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway-voting" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gateway" target="voting-service" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway-roleplay" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gateway" target="roleplay-service" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- WebSocket connections -->
+        <mxCell id="game-websocket" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ff0000;strokeWidth=2;" parent="1" source="game-service" target="roleplay-service" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="game-websocket-label" value="WebSocket" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#ff0000;" parent="game-websocket" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Services to Database -->
+        <mxCell id="services-db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="game-service" target="postgres-cluster" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- CI/CD to Docker Hub -->
+        <mxCell id="cicd-dockerhub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cicd" target="docker-hub" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cicd-dockerhub-label" value="Push Images" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="cicd-dockerhub" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend" value="&lt;div&gt;&lt;b&gt;Legend:&lt;/b&gt;&lt;/div&gt;&lt;div&gt;🟡 Gateway &amp; Caching&lt;/div&gt;&lt;div&gt;🟣 Game &amp; Roleplay Services&lt;/div&gt;&lt;div&gt;🔴 Task Management&lt;/div&gt;&lt;div&gt;🟢 Core Services&lt;/div&gt;&lt;div&gt;🟠 Databases&lt;/div&gt;&lt;div&gt;⚫ CI/CD &amp; Deployment&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="50" y="850" width="300" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- New Features Highlight -->
+        <mxCell id="new-features" value="&lt;div&gt;&lt;b&gt;New Features Added:&lt;/b&gt;&lt;/div&gt;&lt;div&gt;✅ Redis Caching System&lt;/div&gt;&lt;div&gt;✅ WebSocket Real-time Communication&lt;/div&gt;&lt;div&gt;✅ Task Timeout &amp; Concurrency Control&lt;/div&gt;&lt;div&gt;✅ JWT Authentication&lt;/div&gt;&lt;div&gt;✅ CI/CD Pipeline&lt;/div&gt;&lt;div&gt;✅ Docker Hub Integration&lt;/div&gt;&lt;div&gt;✅ Service Health Monitoring&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="400" y="850" width="350" height="120" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

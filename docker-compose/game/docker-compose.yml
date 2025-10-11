@@ -3,9 +3,9 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: game-db
     volumes:
       - pgdata_game:/var/lib/postgresql/data
     networks:
@@ -13,12 +13,15 @@ services:
     # ports:
     #   - "${POSTGRES_PORT}:5432"
   game-service:
-    image: edyson1202/game-service:1.0
+    build:
+      context: ../../microservices/game-service/game-service
+      dockerfile: Dockerfile
     platform: linux/amd64
     restart: always
     environment:
       POSTGRES_HOST: game-db
       POSTGRES_PORT: 5432
+      GATEWAY_URL: http://gateway:3000
     env_file:
       - game.env
     ports:
