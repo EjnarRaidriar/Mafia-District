@@ -1225,14 +1225,9 @@
 							"path": [
 								"api",
 								"roleplay",
-								"sessions"
+								"roles"
 							],
-							"query": [
-								{
-									"key": "game_id",
-									"value": "lobby_{{lobby_id}}"
-								}
-							]
+							"query": []
 						}
 					},
 					"response": []

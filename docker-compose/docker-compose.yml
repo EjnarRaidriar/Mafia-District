@@ -12,8 +12,8 @@ include:
     env_file: communication/communication.env
   - path: rumors/rumors.docker-compose.yml
     env_file: rumors/rumors.env
-  - path: game/docker-compose.yml
-    env_file: game/game.env
+  # - path: game/docker-compose.yml
+  #   env_file: game/game.env
   - path: user-management/docker-compose.yml
     env_file: user-management/user-management.env
   - path: character/docker-compose.yml
