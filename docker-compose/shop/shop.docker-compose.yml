@@ -3,6 +3,8 @@ services:
     platform: linux/amd64
     image: postgres:17
     restart: always
+    env_file:
+      - shop.env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -14,14 +16,41 @@ services:
     networks:
       - shared-net
 
-  shop-service:
+  # --- Instance 1 ---
+  shop-service-1:
     platform: linux/amd64
-    image: crodion/shop-service:1.0.1
+    image: crodion/shop-service:v1.0.7
+    container_name: shop-service-1
     restart: always
     env_file:
-      - shop.env.example
+      - shop.env
     ports:
-      - "${PORT}:${PORT}"
+      - "6001:${PORT}" # Host:6001 -> Container:${PORT}
+    environment:
+      SERVICE_NAME: shop-service-1
+      SERVICE_ROUTE: /api/shop
+      SERVICE_PORT: ${PORT}
+      GATEWAY_URL: http://gateway:3000
+    depends_on:
+      - shop-db
+    networks:
+      - shared-net
+
+  # --- Instance 2 ---
+  shop-service-2:
+    platform: linux/amd64
+    image: crodion/shop-service:v1.0.7
+    container_name: shop-service-2
+    restart: always
+    env_file:
+      - shop.env
+    ports:
+      - "6002:${PORT}" # Host:6002 -> Container:${PORT}
+    environment:
+      SERVICE_NAME: shop-service-2
+      SERVICE_ROUTE: /api/shop
+      SERVICE_PORT: ${PORT}
+      GATEWAY_URL: http://gateway:3000
     depends_on:
       - shop-db
     networks:

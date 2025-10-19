@@ -1,9 +1,11 @@
 include:
+  - path: service-discovery/docker-compose.yml
+    env_file: service-discovery/.env
   - path: gateway/docker-compose.yml
   - path: task/task.docker-compose.yml
     env_file: task/task.env
   - path: voting/voting.docker-compose.yml
-    env_file: voting/voting.env
+    env_file: voting/.env
   - path: shop/shop.docker-compose.yml
     env_file: shop/shop.env
   - path: roleplay/roleplay.docker-compose.yml
