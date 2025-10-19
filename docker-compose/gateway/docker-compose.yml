@@ -13,12 +13,14 @@ services:
 
   gateway:
     platform: linux/amd64
-    image: crodion/gateway:1.0.3
+    image: crodion/gateway:v1.0.4
     ports:
       - "3000:3000"
     volumes:
       - ./config.json:/app/config.json
     environment:
+      - SERVICE_DISCOVERY_URL=http://service-discovery:3030
+      - CALLBACK_URL=http://gateway:3000/_updateRoutes
       - REDIS_URL=redis://redis:6379
     depends_on:
       - redis

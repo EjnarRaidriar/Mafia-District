@@ -1,0 +1,44 @@
+services:
+  roleplay-db:
+    platform: linux/amd64
+    image: postgres:17
+    restart: always
+    env_file:
+      - roleplay.env.example
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - roleplay-db-data:/var/lib/postgresql/data
+    ports:
+      - "${DB_EXPOSE_PORT}:5432"
+    networks:
+      - roleplay-network
+      - shared-net
+
+  roleplay-service:
+    platform: linux/amd64
+    image: crodion/roleplay-service:1.0.4
+    ports:
+      - "${SERVICE_PORT}:${SERVICE_PORT}"
+    env_file:
+      - roleplay.env.example
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - roleplay-db
+    networks:
+      - roleplay-network
+      - shared-net
+
+volumes:
+  roleplay-db-data:
+
+networks:
+  roleplay-network:
+    driver: bridge
