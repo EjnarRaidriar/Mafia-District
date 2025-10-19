@@ -19,19 +19,71 @@ services:
       timeout: 5s
       retries: 5
 
-  task-service:
-    image: ${TASK_SERVICE_IMAGE}
-    container_name: ${TASK_SERVICE_CONTAINER_NAME}
+  task-service-1:
+    platform: linux/amd64
+    # build: .
+    image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:v1.2.2}
+    container_name: task-service-1
     depends_on:
       task-db:
         condition: service_healthy
     environment:
-      PORT: ${TASK_SERVICE_PORT}
-      SERVICE_NAME: ${TASK_SERVICE_NAME}
-      DB_DSN: ${TASK_SERVICE_DB_DSN}
-      GATEWAY_URL: ${TASK_GATEWAY_URL}
+      PORT: ${TASK_SERVICE_PORT:-8081}
+      SERVICE_NAME: task-service-1
+      SERVICE_INSTANCE_ID: task-service-1
+      SERVICE_ROUTE: /api/task
+      SERVICE_PORT: ${TASK_SERVICE_PORT:-8081}
+      SERVICE_HEALTH_URL: /api/task/health
+      DB_DSN: ${TASK_SERVICE_DB_DSN:-postgres://pad_task:pad_task_pwd@task-db:5432/pad_task?sslmode=disable}
+      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
     ports:
-      - "${TASK_SERVICE_HOST_PORT}:${TASK_SERVICE_PORT}"
+      - "8101:${TASK_SERVICE_PORT:-8081}"
+    networks:
+      - shared-net
+    restart: unless-stopped
+
+  task-service-2:
+    platform: linux/amd64
+    # build: .
+    image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:v1.2.2}
+    container_name: task-service-2
+    depends_on:
+      task-db:
+        condition: service_healthy
+    environment:
+      PORT: ${TASK_SERVICE_PORT:-8081}
+      SERVICE_NAME: task-service-2
+      SERVICE_INSTANCE_ID: task-service-2
+      SERVICE_ROUTE: /api/task
+      SERVICE_PORT: ${TASK_SERVICE_PORT:-8081}
+      SERVICE_HEALTH_URL: /api/task/health
+      DB_DSN: ${TASK_SERVICE_DB_DSN:-postgres://pad_task:pad_task_pwd@task-db:5432/pad_task?sslmode=disable}
+      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+    ports:
+      - "8102:${TASK_SERVICE_PORT:-8081}"
+    networks:
+      - shared-net
+    restart: unless-stopped
+
+  task-service-3:
+    platform: linux/amd64
+    # build: .
+    image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:v1.2.2}
+    container_name: task-service-3
+    depends_on:
+      task-db:
+        condition: service_healthy
+    environment:
+      PORT: ${TASK_SERVICE_PORT:-8081}
+      SERVICE_NAME: task-service-3
+      SERVICE_INSTANCE_ID: task-service-3
+      SERVICE_ROUTE: /api/task
+      SERVICE_PORT: ${TASK_SERVICE_PORT:-8081}
+      SERVICE_HEALTH_URL: /api/task/health
+      DB_DSN: ${TASK_SERVICE_DB_DSN:-postgres://pad_task:pad_task_pwd@task-db:5432/pad_task?sslmode=disable}
+      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+    ports:
+      - "8103:${TASK_SERVICE_PORT:-8081}"
     networks:
       - shared-net
     restart: unless-stopped
