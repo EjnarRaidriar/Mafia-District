@@ -34,7 +34,7 @@ services:
       SERVICE_ROUTE: /api/task
       SERVICE_PORT: ${TASK_SERVICE_PORT:-8081}
       SERVICE_HEALTH_URL: /api/task/health
-      DB_DSN: ${TASK_SERVICE_DB_DSN:-postgres://pad_task:pad_task_pwd@task-db:5432/pad_task?sslmode=disable}
+      DB_DSN: ${TASK_SERVICE_DB_DSN:?TASK_SERVICE_DB_DSN not set}
       GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
     ports:
       - "8101:${TASK_SERVICE_PORT:-8081}"
@@ -57,7 +57,7 @@ services:
       SERVICE_ROUTE: /api/task
       SERVICE_PORT: ${TASK_SERVICE_PORT:-8081}
       SERVICE_HEALTH_URL: /api/task/health
-      DB_DSN: ${TASK_SERVICE_DB_DSN:-postgres://pad_task:pad_task_pwd@task-db:5432/pad_task?sslmode=disable}
+      DB_DSN: ${TASK_SERVICE_DB_DSN:?TASK_SERVICE_DB_DSN not set}
       GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
     ports:
       - "8102:${TASK_SERVICE_PORT:-8081}"
@@ -80,7 +80,7 @@ services:
       SERVICE_ROUTE: /api/task
       SERVICE_PORT: ${TASK_SERVICE_PORT:-8081}
       SERVICE_HEALTH_URL: /api/task/health
-      DB_DSN: ${TASK_SERVICE_DB_DSN:-postgres://pad_task:pad_task_pwd@task-db:5432/pad_task?sslmode=disable}
+      DB_DSN: ${TASK_SERVICE_DB_DSN:?TASK_SERVICE_DB_DSN not set}
       GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
     ports:
       - "8103:${TASK_SERVICE_PORT:-8081}"
