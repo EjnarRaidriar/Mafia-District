@@ -10,15 +10,15 @@ include:
     env_file: shop/shop.env
   - path: roleplay/roleplay.docker-compose.yml
     env_file: roleplay/roleplay.env
-  # - path: communication/communication.docker-compose.yml
-  #   env_file: communication/communication.env
-  # - path: rumors/rumors.docker-compose.yml
-  #   env_file: rumors/rumors.env
-  # - path: game/docker-compose.yml
-  #   env_file: game/game.env
-  # - path: user-management/docker-compose.yml
-  #   env_file: user-management/user-management.env
-  # - path: character/docker-compose.yml
-  #   env_file: character/.env
-  # - path: town/docker-compose.yml
-  #   env_file: town/.env
+  - path: communication/communication.docker-compose.yml
+    env_file: communication/communication.env
+  - path: rumors/rumors.docker-compose.yml
+    env_file: rumors/rumors.env
+  - path: game/docker-compose.yml
+    env_file: game/game.env
+  - path: user-management/docker-compose.yml
+    env_file: user-management/user-management.env
+  - path: character/docker-compose.yml
+    env_file: character/.env
+  - path: town/docker-compose.yml
+    env_file: town/.env

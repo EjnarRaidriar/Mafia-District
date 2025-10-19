@@ -31,3 +31,6 @@
 [submodule "microservices/gateway"]
 	path = microservices/gateway
 	url = https://github.com/RodionClepa/mafia-gateway
+[submodule "microservices/service-discovery"]
+	path = microservices/service-discovery
+	url = https://github.com/RodionClepa/mafia-service-discovery
