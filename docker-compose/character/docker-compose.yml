@@ -11,11 +11,12 @@ services:
     volumes:
       - character_db_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d/
+    networks:
+      - shared-net
 
   character-service:
     platform: linux/amd64
     image: ${CHARACTER_SERVICE_IMAGE_NAME}
-    build: .
     env_file:
       - .env
     environment:
@@ -23,8 +24,14 @@ services:
       PORT: ${CHARACTER_SERVICE_PORT}
     ports:
       - "${CHARACTER_SERVICE_PORT}:${CHARACTER_SERVICE_PORT}"
+    networks:
+      - shared-net
     depends_on:
       - character-db
+
+networks:
+  shared-net:
+    external: true
 
 volumes:
   character_db_data:

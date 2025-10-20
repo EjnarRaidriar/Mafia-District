@@ -4,7 +4,7 @@ services:
     image: postgres:17
     restart: always
     env_file:
-      - roleplay.env.example
+      - roleplay.env
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -15,24 +15,76 @@ services:
       - "${DB_EXPOSE_PORT}:5432"
     networks:
       - roleplay-network
+      - shared-net
 
-  roleplay-service:
+  roleplay-service-1:
     platform: linux/amd64
-    image: crodion/roleplay-service:1.0.2
+    image: crodion/roleplay-service:v1.0.6
+    container_name: roleplay-service-1
     ports:
-      - "${SERVICE_PORT}:${SERVICE_PORT}"
+      - "8201:8200"
     env_file:
-      - roleplay.env.example
+      - roleplay.env
     environment:
+      - SERVICE_NAME=roleplay-service-1
+      - SERVICE_PORT=8200
+      - SERVICE_ROUTE=/api/roleplay
+      - GATEWAY_URL=http://gateway:3000
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DB_NAME=${DB_NAME}
     depends_on:
       - roleplay-db
     networks:
       - roleplay-network
+      - shared-net
+
+  roleplay-service-2:
+    platform: linux/amd64
+    image: crodion/roleplay-service:v1.0.6
+    container_name: roleplay-service-2
+    ports:
+      - "8202:8200"
+    env_file:
+      - roleplay.env
+    environment:
+      - SERVICE_NAME=roleplay-service-2
+      - SERVICE_PORT=8200
+      - SERVICE_ROUTE=/api/roleplay
+      - GATEWAY_URL=http://gateway:3000
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - roleplay-db
+    networks:
+      - roleplay-network
+      - shared-net
+
+  roleplay-service-3:
+    platform: linux/amd64
+    image: crodion/roleplay-service:v1.0.6
+    container_name: roleplay-service-3
+    ports:
+      - "8203:8200"
+    env_file:
+      - roleplay.env
+    environment:
+      - SERVICE_NAME=roleplay-service-3
+      - SERVICE_PORT=8200
+      - SERVICE_ROUTE=/api/roleplay
+      - GATEWAY_URL=http://gateway:3000
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - roleplay-db
+    networks:
+      - roleplay-network
+      - shared-net
 
 volumes:
   roleplay-db-data:
@@ -40,3 +92,5 @@ volumes:
 networks:
   roleplay-network:
     driver: bridge
+  shared-net:
+    external: true

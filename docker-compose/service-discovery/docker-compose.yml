@@ -1,0 +1,14 @@
+services:
+  service-discovery:
+    platform: linux/amd64
+    image: crodion/discovery:v1.0.1
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    external: true
