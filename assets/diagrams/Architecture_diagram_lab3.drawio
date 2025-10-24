@@ -240,7 +240,7 @@
           <mxGeometry x="1040" y="1020" width="220" height="50" as="geometry" />
         </mxCell>
         
-        <mxCell id="stat7" value="Log Download API&#xa;JSON & Text formats" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" vertex="1" parent="1">
+        <mxCell id="stat7" value="Log Download API&#xa;JSON &amp; Text formats" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="1280" y="1020" width="170" height="50" as="geometry" />
         </mxCell>
         
