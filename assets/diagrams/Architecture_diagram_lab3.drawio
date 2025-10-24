@@ -1,0 +1,236 @@
+<mxfile host="app.diagrams.net" agent="AI Assistant" version="Laboratory 3">
+  <diagram name="Lab3 Architecture" id="lab3-architecture">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Mafia District - Lab 3 Architecture&#xa;(Log Download + Telegram Notifications)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="10" width="600" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Client Layer -->
+        <mxCell id="client" value="Client (Web/Mobile)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- API Gateway -->
+        <mxCell id="gateway" value="API Gateway&#xa;• JWT Auth&#xa;• Rate Limiting&#xa;• Caching" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="250" y="70" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Service Discovery with Telegram -->
+        <mxCell id="service-discovery" value="Service Discovery&#xa;• Health Checks&#xa;• Service Registry&#xa;• 🆕 Telegram Alerts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="450" y="70" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Telegram Bot -->
+        <mxCell id="telegram" value="Telegram Bot&#xa;🔴 Unhealthy&#xa;✅ Recovered&#xa;❌ Removed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="660" y="70" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Developers -->
+        <mxCell id="developers" value="Developers&#xa;👨‍💻👩‍💻" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="820" y="70" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Prometheus & Grafana -->
+        <mxCell id="monitoring" value="Prometheus&#xa;&amp;&#xa;Grafana" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="960" y="70" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Redis Cache -->
+        <mxCell id="redis" value="Redis&#xa;Cache" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1100" y="70" width="80" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Microservices Layer Title -->
+        <mxCell id="services-title" value="Microservices" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="190" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Task Service with Log Download -->
+        <mxCell id="task-service" value="Task Service (Go)&#xa;• Task Management&#xa;• Task Manager&#xa;• 🆕 Log Buffer (1000)&#xa;• 🆕 /api/task/logs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="50" y="240" width="180" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Task Service DB -->
+        <mxCell id="task-db" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="100" y="360" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Voting Service with Log Download -->
+        <mxCell id="voting-service" value="Voting Service (Python)&#xa;• Vote Processing&#xa;• Task Manager&#xa;• 🆕 Log Buffer (1000)&#xa;• 🆕 /api/voting/logs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="270" y="240" width="200" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Voting Service DB -->
+        <mxCell id="voting-db" value="SQLite/&#xa;PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="330" y="360" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Game Service -->
+        <mxCell id="game-service" value="Game Service&#xa;• Lobby Management&#xa;• Day/Night Cycle&#xa;• WebSocket Server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="510" y="240" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Shop Service -->
+        <mxCell id="shop-service" value="Shop Service&#xa;• Item Management&#xa;• Purchases" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="690" y="240" width="130" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Roleplay Service -->
+        <mxCell id="roleplay-service" value="Roleplay Service&#xa;• Action Management&#xa;• Role Abilities" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="860" y="240" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Communication Service -->
+        <mxCell id="communication-service" value="Communication&#xa;• Chat&#xa;• Messaging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1040" y="240" width="120" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Lab 3 Features Box -->
+        <mxCell id="lab3-box" value="Laboratory 3 Features" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="50" y="480" width="1110" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Feature 1: Log Download -->
+        <mxCell id="feature1" value="1️⃣ Log Download Endpoints&#xa;&#xa;Task &amp; Voting Services:&#xa;• GET /api/{service}/logs&#xa;• Query: format, level, since, until&#xa;• Circular buffer (1000 entries)&#xa;• JSON &amp; Text formats&#xa;• Thread-safe implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="50" y="540" width="350" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Feature 2: Telegram Notifications -->
+        <mxCell id="feature2" value="2️⃣ Telegram Health Alerts&#xa;&#xa;Service Discovery:&#xa;• Real-time notifications to developers&#xa;• Alert types: Unhealthy, Recovered, Removed&#xa;• Configurable cooldown (5 min default)&#xa;• POST /telegram/test&#xa;• GET /telegram/status" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="430" y="540" width="350" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Feature 3: Environment Configuration -->
+        <mxCell id="feature3" value="3️⃣ New Configuration&#xa;&#xa;Environment Variables:&#xa;• LOG_BUFFER_SIZE (default: 1000)&#xa;• TASK_TIMEOUT (default: 5s/30s)&#xa;• TELEGRAM_BOT_TOKEN&#xa;• TELEGRAM_CHAT_ID&#xa;• TELEGRAM_COOLDOWN_MS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=left;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="810" y="540" width="350" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Log Buffer Architecture -->
+        <mxCell id="buffer-title" value="Log Buffer Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="690" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="buffer-diagram" value="Application Logs&#xa;⬇️&#xa;Log Handler&#xa;⬇️&#xa;Circular Buffer&#xa;(FIFO - 1000 entries)&#xa;⬇️&#xa;/api/{service}/logs&#xa;⬇️&#xa;Developer / Monitoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=center;fontColor=#333333" vertex="1" parent="1">
+          <mxGeometry x="50" y="730" width="200" height="170" as="geometry" />
+        </mxCell>
+        
+        <!-- Telegram Notification Flow -->
+        <mxCell id="telegram-title" value="Telegram Notification Flow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="690" width="250" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="telegram-flow" value="Service Health Check&#xa;⬇️&#xa;Failure Detected (2+ failures)&#xa;⬇️&#xa;Telegram Notifier&#xa;⬇️&#xa;Check Cooldown&#xa;⬇️&#xa;Send Alert to Bot&#xa;⬇️&#xa;Developer Receives Notification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=center;fontColor=#333333" vertex="1" parent="1">
+          <mxGeometry x="300" y="730" width="250" height="170" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flow Legend -->
+        <mxCell id="legend-title" value="Data Flow Legend" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="600" y="690" width="150" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend1" value="➡️ HTTP Request" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="600" y="730" width="150" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend2" value="⬅️ HTTP Response" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="600" y="760" width="150" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend3" value="🔔 Health Check" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="600" y="790" width="150" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend4" value="📱 Telegram Notification" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="600" y="820" width="180" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend5" value="📊 Log Download" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="600" y="850" width="150" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Key Endpoints Summary -->
+        <mxCell id="endpoints-title" value="New Endpoints Summary" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="820" y="690" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="endpoints-list" value="Task Service:&#xa;• GET /api/task/logs&#xa;• GET /api/task/health&#xa;&#xa;Voting Service:&#xa;• GET /api/voting/logs&#xa;• GET /api/voting/health&#xa;&#xa;Service Discovery:&#xa;• POST /telegram/test&#xa;• GET /telegram/status&#xa;• GET /metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;align=left;spacingLeft=10;fontColor=#333333" vertex="1" parent="1">
+          <mxGeometry x="820" y="730" width="340" height="170" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Client to Gateway -->
+        <mxCell id="arrow1" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="client" target="gateway">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="150" as="sourcePoint" />
+            <mxPoint x="250" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Gateway to Service Discovery -->
+        <mxCell id="arrow2" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="gateway" target="service-discovery">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="150" as="sourcePoint" />
+            <mxPoint x="450" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Service Discovery to Telegram -->
+        <mxCell id="arrow3" value="📱 Alerts" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#82b366" edge="1" parent="1" source="service-discovery" target="telegram">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="610" y="150" as="sourcePoint" />
+            <mxPoint x="660" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Telegram to Developers -->
+        <mxCell id="arrow4" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673a6" edge="1" parent="1" source="telegram" target="developers">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="780" y="150" as="sourcePoint" />
+            <mxPoint x="830" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Service Discovery to Services -->
+        <mxCell id="arrow5" value="🔔 Health Checks" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#b85450;dashed=1" edge="1" parent="1" source="service-discovery" target="task-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="200" as="sourcePoint" />
+            <mxPoint x="140" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow6" value="🔔 Health Checks" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#b85450;dashed=1" edge="1" parent="1" source="service-discovery" target="voting-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="200" as="sourcePoint" />
+            <mxPoint x="370" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Task Service to DB -->
+        <mxCell id="arrow7" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=1" edge="1" parent="1" source="task-service" target="task-db">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="350" as="sourcePoint" />
+            <mxPoint x="140" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Voting Service to DB -->
+        <mxCell id="arrow8" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=1" edge="1" parent="1" source="voting-service" target="voting-db">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="350" as="sourcePoint" />
+            <mxPoint x="370" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Footer -->
+        <mxCell id="footer" value="Mafia District - Laboratory 3: Log Download Endpoints + Telegram Health Notifications | October 2025" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#666666" vertex="1" parent="1">
+          <mxGeometry x="400" y="950" width="600" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
