@@ -19,7 +19,7 @@ services:
 
   roleplay-service-1:
     platform: linux/amd64
-    image: crodion/roleplay-service:v1.0.6
+    image: crodion/roleplay-service:latest
     container_name: roleplay-service-1
     ports:
       - "8201:8200"

@@ -13,14 +13,14 @@ services:
 
   gateway:
     platform: linux/amd64
-    image: crodion/gateway:v1.0.4
+    image: crodion/gateway:v1.0.8
     ports:
       - "3000:3000"
     volumes:
       - ./config.json:/app/config.json
+    env_file:
+      - .env
     environment:
-      - SERVICE_DISCOVERY_URL=http://service-discovery:3030
-      - CALLBACK_URL=http://gateway:3000/_updateRoutes
       - REDIS_URL=redis://redis:6379
     depends_on:
       - redis
@@ -29,7 +29,3 @@ services:
 
 volumes:
   redis_data:
-
-networks:
-  shared-net:
-    external: true

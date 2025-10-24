@@ -1,11 +1,30 @@
 services:
   service-discovery:
+    image: crodion/discovery:latest
     platform: linux/amd64
-    image: crodion/discovery:v1.0.1
     ports:
       - "${PORT}:${PORT}"
     env_file:
       - .env
+    networks:
+      - shared-net
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "${PROMETHEUS_PORT}:9090"
+    networks:
+      - shared-net
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
     networks:
       - shared-net
 

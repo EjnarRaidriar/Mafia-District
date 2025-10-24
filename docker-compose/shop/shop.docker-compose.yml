@@ -19,7 +19,7 @@ services:
   # --- Instance 1 ---
   shop-service-1:
     platform: linux/amd64
-    image: crodion/shop-service:v1.0.7
+    image: crodion/shop-service:latest
     container_name: shop-service-1
     restart: always
     env_file:
@@ -39,7 +39,7 @@ services:
   # --- Instance 2 ---
   shop-service-2:
     platform: linux/amd64
-    image: crodion/shop-service:v1.0.7
+    image: crodion/shop-service:latest
     container_name: shop-service-2
     restart: always
     env_file:
