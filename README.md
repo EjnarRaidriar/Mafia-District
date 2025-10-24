@@ -1611,7 +1611,7 @@ Image
 
 # Architectural Diagram of Microservices operation
 
-<img width="1068" height="798" alt="image" src="./assets/diagrams/Architecture_diagram_lab3.png" />
+<img width="1068" height="798" alt="image" src="./assets/diagrams/Architecture_diagram_3.png" />
 
 # Communication Contract
 
