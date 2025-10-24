@@ -22,7 +22,11 @@ services:
   task-service-1:
     platform: linux/amd64
     # build: .
+<<<<<<< HEAD
     image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:latest}
+=======
+    image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:v1.2.2}
+>>>>>>> dev
     container_name: task-service-1
     depends_on:
       task-db:
@@ -36,7 +40,10 @@ services:
       SERVICE_HEALTH_URL: /api/task/health
       DB_DSN: ${TASK_SERVICE_DB_DSN:?TASK_SERVICE_DB_DSN not set}
       GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+<<<<<<< HEAD
       LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
+=======
+>>>>>>> dev
     ports:
       - "8101:${TASK_SERVICE_PORT:-8081}"
     networks:
@@ -46,7 +53,11 @@ services:
   task-service-2:
     platform: linux/amd64
     # build: .
+<<<<<<< HEAD
     image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:latest}
+=======
+    image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:v1.2.2}
+>>>>>>> dev
     container_name: task-service-2
     depends_on:
       task-db:
@@ -60,7 +71,10 @@ services:
       SERVICE_HEALTH_URL: /api/task/health
       DB_DSN: ${TASK_SERVICE_DB_DSN:?TASK_SERVICE_DB_DSN not set}
       GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+<<<<<<< HEAD
       LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
+=======
+>>>>>>> dev
     ports:
       - "8102:${TASK_SERVICE_PORT:-8081}"
     networks:
@@ -70,7 +84,11 @@ services:
   task-service-3:
     platform: linux/amd64
     # build: .
+<<<<<<< HEAD
     image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:latest}
+=======
+    image: ${TASK_SERVICE_IMAGE:-dmindrescu/task-service:v1.2.2}
+>>>>>>> dev
     container_name: task-service-3
     depends_on:
       task-db:
@@ -84,7 +102,10 @@ services:
       SERVICE_HEALTH_URL: /api/task/health
       DB_DSN: ${TASK_SERVICE_DB_DSN:?TASK_SERVICE_DB_DSN not set}
       GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+<<<<<<< HEAD
       LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
+=======
+>>>>>>> dev
     ports:
       - "8103:${TASK_SERVICE_PORT:-8081}"
     networks:
