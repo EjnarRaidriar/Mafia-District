@@ -19,7 +19,7 @@ include:
   #   env_file: game/game.env
   # - path: user-management/docker-compose.yml
   #   env_file: user-management/user-management.env
-  # - path: character/docker-compose.yml
-  #   env_file: character/.env
-  # - path: town/docker-compose.yml
-  #   env_file: town/.env
+  - path: character/docker-compose.yml
+    env_file: character/.env
+  - path: town/docker-compose.yml
+    env_file: town/.env
