@@ -3,16 +3,7 @@ services:
     image: ${VOTING_DB_IMAGE}
     platform: linux/amd64
     container_name: ${VOTING_DB_CONTAINER_NAME}
-  voting-db:
-    image: ${VOTING_DB_IMAGE}
-    platform: linux/amd64
-    container_name: ${VOTING_DB_CONTAINER_NAME}
     environment:
-      POSTGRES_USER: ${VOTING_DB_USER}
-      POSTGRES_PASSWORD: ${VOTING_DB_PASSWORD}
-      POSTGRES_DB: ${VOTING_DB_NAME}
-    ports:
-      - "${VOTING_DB_HOST_PORT}:5432"
       POSTGRES_USER: ${VOTING_DB_USER}
       POSTGRES_PASSWORD: ${VOTING_DB_PASSWORD}
       POSTGRES_DB: ${VOTING_DB_NAME}
@@ -108,5 +99,4 @@ networks:
     external: true
 
 volumes:
-  voting-db-data:
   voting-db-data:
