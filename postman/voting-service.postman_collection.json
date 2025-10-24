@@ -98,6 +98,102 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Task Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/voting/task/stats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"voting",
+						"task",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download Logs (JSON)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/voting/logs?format=json",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"voting",
+						"logs"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "json",
+							"description": "Output format: json, text, or plain"
+						},
+						{
+							"key": "level",
+							"value": "",
+							"description": "Filter by log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)",
+							"disabled": true
+						},
+						{
+							"key": "since",
+							"value": "",
+							"description": "Start time (ISO8601 format)",
+							"disabled": true
+						},
+						{
+							"key": "until",
+							"value": "",
+							"description": "End time (ISO8601 format)",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Download service logs in JSON format with optional filtering"
+			},
+			"response": []
+		},
+		{
+			"name": "Download Logs (Text)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/voting/logs?format=text&level=ERROR",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"voting",
+						"logs"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "text"
+						},
+						{
+							"key": "level",
+							"value": "ERROR",
+							"description": "Filter by log level"
+						}
+					]
+				},
+				"description": "Download service logs in plain text format, filtered by ERROR level"
+			},
+			"response": []
 		}
 	],
 	"variable": [

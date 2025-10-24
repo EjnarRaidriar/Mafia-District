@@ -119,8 +119,103 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{baseUrl}}/health"
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/task/stats",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"task",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download Logs (JSON)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/task/logs?format=json",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"task",
+						"logs"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "json",
+							"description": "Output format: json or text"
+						},
+						{
+							"key": "level",
+							"value": "",
+							"description": "Filter by log level (INFO, ERROR, WARN, DEBUG)",
+							"disabled": true
+						},
+						{
+							"key": "since",
+							"value": "",
+							"description": "Start time (RFC3339 format)",
+							"disabled": true
+						},
+						{
+							"key": "until",
+							"value": "",
+							"description": "End time (RFC3339 format)",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Download service logs in JSON format with optional filtering"
+			},
+			"response": []
+		},
+		{
+			"name": "Download Logs (Text)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/task/logs?format=text&level=ERROR",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"task",
+						"logs"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "text"
+						},
+						{
+							"key": "level",
+							"value": "ERROR",
+							"description": "Filter by log level"
+						}
+					]
+				},
+				"description": "Download service logs in plain text format, filtered by ERROR level"
 			},
 			"response": []
 		}
