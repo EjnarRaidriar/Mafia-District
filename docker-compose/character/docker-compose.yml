@@ -14,16 +14,55 @@ services:
     networks:
       - shared-net
 
-  character-service:
+  character-service-1:
     platform: linux/amd64
     image: ${CHARACTER_SERVICE_IMAGE_NAME}
+    container_name: character-service-1
     env_file:
       - .env
     environment:
       DATABASE_URL: "postgres://${CHARACTER_DB_USER}:${CHARACTER_DB_PASSWORD}@${CHARACTER_DB_HOST}:5432/${CHARACTER_DB_NAME}"
       PORT: ${CHARACTER_SERVICE_PORT}
-    ports:
-      - "${CHARACTER_SERVICE_PORT}:${CHARACTER_SERVICE_PORT}"
+      SERVICE_NAME: character-service
+      SERVICE_ROUTE: ${SERVICE_ROUTE}
+      GATEWAY_URL: ${GATEWAY_URL}
+      INSTANCE_ID: "1"
+    networks:
+      - shared-net
+    depends_on:
+      - character-db
+
+  character-service-2:
+    platform: linux/amd64
+    image: ${CHARACTER_SERVICE_IMAGE_NAME}
+    container_name: character-service-2
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "postgres://${CHARACTER_DB_USER}:${CHARACTER_DB_PASSWORD}@${CHARACTER_DB_HOST}:5432/${CHARACTER_DB_NAME}"
+      PORT: ${CHARACTER_SERVICE_PORT}
+      SERVICE_NAME: character-service
+      SERVICE_ROUTE: ${SERVICE_ROUTE}
+      GATEWAY_URL: ${GATEWAY_URL}
+      INSTANCE_ID: "2"
+    networks:
+      - shared-net
+    depends_on:
+      - character-db
+
+  character-service-3:
+    platform: linux/amd64
+    image: ${CHARACTER_SERVICE_IMAGE_NAME}
+    container_name: character-service-3
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "postgres://${CHARACTER_DB_USER}:${CHARACTER_DB_PASSWORD}@${CHARACTER_DB_HOST}:5432/${CHARACTER_DB_NAME}"
+      PORT: ${CHARACTER_SERVICE_PORT}
+      SERVICE_NAME: character-service
+      SERVICE_ROUTE: ${SERVICE_ROUTE}
+      GATEWAY_URL: ${GATEWAY_URL}
+      INSTANCE_ID: "3"
     networks:
       - shared-net
     depends_on:
