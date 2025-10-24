@@ -1,5 +1,6 @@
 services:
   task-db:
+    platform: linux/amd64
     image: ${TASK_DB_IMAGE}
     container_name: ${TASK_DB_CONTAINER_NAME}
     environment:
