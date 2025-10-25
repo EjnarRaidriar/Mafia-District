@@ -2,3 +2,4 @@
 /docker-compose/**/*.env
 *.pdf
 */microservices
+.DS_Store

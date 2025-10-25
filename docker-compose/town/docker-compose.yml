@@ -1,37 +1,78 @@
 services:
   town-db:
     image: ${TOWN_DB_IMAGE_NAME}
+    container_name: "${TOWN_DB_HOST}"
     env_file:
       - .env
     environment:
       POSTGRES_DB: ${TOWN_DB_NAME}
       POSTGRES_USER: ${TOWN_DB_USER}
       POSTGRES_PASSWORD: ${TOWN_DB_PASSWORD}
-    # ports:
-    #   - "${TOWN_DB_PORT}:5432"
     volumes:
       - town_db_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d/
     networks:
       - shared-net
 
-  town-service:
+  town-service-1:
     platform: linux/amd64
     image: ${TOWN_SERVICE_IMAGE_NAME}
+    container_name: town-service-1
+    env_file:
+      - .env
     environment:
       DATABASE_URL: "host=${TOWN_DB_HOST} user=${TOWN_DB_USER} password=${TOWN_DB_PASSWORD} dbname=${TOWN_DB_NAME} sslmode=${SSL_MODE}"
       PORT: ${TOWN_SERVICE_PORT}
-    ports:
-      - "${TOWN_SERVICE_PORT}:${TOWN_SERVICE_PORT}"
+      SERVICE_NAME: town-service
+      SERVICE_ROUTE: ${SERVICE_ROUTE}
+      GATEWAY_URL: ${GATEWAY_URL}
+      INSTANCE_ID: "1"
+      CONTAINER_NAME: town-service-1
+    depends_on:
+      - town-db
+    networks:
+      - shared-net
+
+  town-service-2:
+    platform: linux/amd64
+    image: ${TOWN_SERVICE_IMAGE_NAME}
+    container_name: town-service-2
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "host=${TOWN_DB_HOST} user=${TOWN_DB_USER} password=${TOWN_DB_PASSWORD} dbname=${TOWN_DB_NAME} sslmode=${SSL_MODE}"
+      PORT: ${TOWN_SERVICE_PORT}
+      SERVICE_NAME: town-service
+      SERVICE_ROUTE: ${SERVICE_ROUTE}
+      GATEWAY_URL: ${GATEWAY_URL}
+      INSTANCE_ID: "2"
+      CONTAINER_NAME: town-service-2
+    depends_on:
+      - town-db
+    networks:
+      - shared-net
+
+  town-service-3:
+    platform: linux/amd64
+    image: ${TOWN_SERVICE_IMAGE_NAME}
+    container_name: town-service-3
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "host=${TOWN_DB_HOST} user=${TOWN_DB_USER} password=${TOWN_DB_PASSWORD} dbname=${TOWN_DB_NAME} sslmode=${SSL_MODE}"
+      PORT: ${TOWN_SERVICE_PORT}
+      SERVICE_NAME: town-service
+      SERVICE_ROUTE: ${SERVICE_ROUTE}
+      GATEWAY_URL: ${GATEWAY_URL}
+      INSTANCE_ID: "3"
+      CONTAINER_NAME: town-service-3
     depends_on:
       - town-db
     networks:
       - shared-net
     
-
 volumes:
   town_db_data:
-
 networks:
   shared-net:
     external: true

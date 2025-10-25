@@ -1,0 +1,616 @@
+{
+	"info": {
+		"_postman_id": "gateway-game-service-2024",
+		"name": "Gateway - Game Service API",
+		"description": "Complete Game Service API through Gateway with all endpoints including new voting and game ending functionality",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Lobby Management",
+			"item": [
+				{
+					"name": "Create Lobby",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"maxPlayers\": 10\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Lobbies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Lobby by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Lobby",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"maxPlayers\": 20\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Lobby",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Player Management",
+			"item": [
+				{
+					"name": "Add Player to Lobby",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"player1\",\n  \"currency\": 1000,\n  \"status\": \"alive\",\n  \"role\": \"vampire\",\n  \"task\": \"Hunt villagers at night\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/players",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "players"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Players in Lobby",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/players",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "players"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Player by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/players/{{player_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "players", "{{player_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Player Currency",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currency\": 1500\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/players/{{player_id}}/currency",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "players", "{{player_id}}", "currency"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Player Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"dead\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/players/{{player_id}}/status",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "players", "{{player_id}}", "status"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Player Role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": \"sheriff\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/players/{{player_id}}/role",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "players", "{{player_id}}", "role"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game Ending & Voting",
+			"item": [
+				{
+					"name": "Vote to Eliminate Player",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"voterId\": \"player1\",\n  \"targetId\": \"player2\",\n  \"idempotencyKey\": \"vote-{{$timestamp}}\",\n  \"day\": 1\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/vote-eliminate",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "vote-eliminate"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vote Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/vote-results?day=1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "vote-results"],
+							"query": [
+								{
+									"key": "day",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/end-game?day=1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "end-game"],
+							"query": [
+								{
+									"key": "day",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Complete Game Flow Test",
+			"item": [
+				{
+					"name": "1. Create Lobby",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set(\"lobby_id\", response.ID);",
+									"    console.log(\"Created lobby with ID:\", response.ID);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"maxPlayers\": 10\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Add Players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set(\"player1_id\", response.ID);",
+									"    console.log(\"Added player:\", response.UserID);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"vampire1\",\n  \"currency\": 1000,\n  \"status\": \"alive\",\n  \"role\": \"vampire\",\n  \"task\": \"Hunt villagers at night\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/players",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "players"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Add More Players",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"sheriff1\",\n  \"currency\": 1000,\n  \"status\": \"alive\",\n  \"role\": \"sheriff\",\n  \"task\": \"Protect the village\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/players",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "players"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Vote to Eliminate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"voterId\": \"vampire1\",\n  \"targetId\": \"sheriff1\",\n  \"idempotencyKey\": \"vote-{{$timestamp}}\",\n  \"day\": 1\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/vote-eliminate",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "vote-eliminate"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Check Vote Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/vote-results?day=1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "vote-results"],
+							"query": [
+								{
+									"key": "day",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. End Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/end-game?day=1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "game", "lobbies", "{{lobby_id}}", "end-game"],
+							"query": [
+								{
+									"key": "day",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Service Integration Tests",
+			"item": [
+				{
+					"name": "Create Character for Player",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"test_vampire\",\n  \"role\": \"vampire\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/create-character",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"lobbies",
+								"{{lobby_id}}",
+								"create-character"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shop Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/shop/items",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"lobbies",
+								"{{lobby_id}}",
+								"shop",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Shop Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"test_buyer\",\n  \"itemId\": 1,\n  \"idempotencyKey\": \"test-purchase-001\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/shop/purchase",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"lobbies",
+								"{{lobby_id}}",
+								"shop",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Game Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"senderId\": \"test_sender\",\n  \"content\": \"Hello from Game Service integration!\",\n  \"chatId\": \"test_chat_123\",\n  \"role\": \"villager\",\n  \"location\": \"lobby\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/send-message",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"lobbies",
+								"{{lobby_id}}",
+								"send-message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Game Rumor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"A mysterious figure was seen near the town hall at midnight\",\n  \"availableRoles\": [\"villager\", \"sheriff\"]\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/game/lobbies/{{lobby_id}}/create-rumor",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"lobbies",
+								"{{lobby_id}}",
+								"create-rumor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "gateway_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "lobby_id",
+			"value": "5",
+			"type": "string"
+		},
+		{
+			"key": "player_id",
+			"value": "player_5_vampire1",
+			"type": "string"
+		}
+	]
+}

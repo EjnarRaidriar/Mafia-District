@@ -1272,6 +1272,8 @@ Image
 
 ## **Task Service API**
 
+### Core Task Endpoints
+
 - **POST** `/api/task/assign`
   **Request**
 
@@ -1344,9 +1346,58 @@ Image
   ]
   ```
 
+### Monitoring Endpoints (Lab 3)
+
+- **GET** `/api/task/health`
+  **Response (200)**
+
+  ```json
+  {
+    "status": "success",
+    "data": { "result": "ok" }
+  }
+  ```
+
+- **GET** `/api/task/logs`
+  **Query Parameters:**
+  - `format` — `json` (default) or `text` for plain text format
+  - `level` — Filter by log level: `INFO`, `WARN`, `ERROR`
+  - `since` — ISO 8601 timestamp (e.g., `2025-10-24T20:00:00Z`)
+  - `until` — ISO 8601 timestamp
+  
+  **Response (200) - JSON Format:**
+
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "logs": [
+        {
+          "timestamp": "2025-10-24T20:15:22.123Z",
+          "level": "INFO",
+          "message": "Task assigned to user u123",
+          "requestId": "req_123456"
+        }
+      ],
+      "count": 1,
+      "totalCount": 1000,
+      "service": "task-service",
+      "timestamp": "2025-10-24T20:15:30.000Z"
+    }
+  }
+  ```
+  
+  **Response (200) - Text Format:**
+  
+  ```
+  [2025-10-24T20:15:22.123Z] [INFO] [req=req_123456] Task assigned to user u123
+  ```
+
 ---
 
 ## **Voting Service API**
+
+### Core Voting Endpoints
 
 - **POST** `/api/voting/vote`
   **Request**
@@ -1399,9 +1450,168 @@ Image
   ]
   ```
 
+### Monitoring Endpoints (Lab 3)
+
+- **GET** `/api/voting/health`
+  **Response (200)**
+
+  ```json
+  {
+    "status": "ok"
+  }
+  ```
+
+- **GET** `/api/voting/logs`
+  **Query Parameters:**
+  - `format` — `json` (default) or `text` for plain text format
+  - `level` — Filter by log level: `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`
+  - `since` — ISO 8601 timestamp (e.g., `2025-10-24T20:00:00Z`)
+  - `until` — ISO 8601 timestamp
+  
+  **Response (200) - JSON Format:**
+
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "logs": [
+        {
+          "timestamp": "2025-10-24T20:15:22.123Z",
+          "level": "INFO",
+          "message": "Vote recorded for lobby lobby_6",
+          "request_id": "req_123456"
+        }
+      ],
+      "count": 1,
+      "service": "voting-service",
+      "timestamp": "2025-10-24T20:15:30.000Z"
+    }
+  }
+  ```
+  
+  **Response (200) - Text Format:**
+  
+  ```
+  [2025-10-24T20:15:22.123Z] [INFO] [req_123456] Vote recorded for lobby lobby_6
+  ```
+
+---
+
+## **Service Discovery API** (Lab 3)
+
+### Service Registration
+
+- **POST** `/register`
+  **Request**
+
+  ```json
+  {
+    "id": "task-service-1",
+    "route": "/api/task",
+    "target": "http://task-service-1:8081",
+    "healthUrl": "/api/task/health"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "ok": true
+  }
+  ```
+
+- **POST** `/deregister`
+  **Request**
+
+  ```json
+  {
+    "id": "task-service-1",
+    "route": "/api/task"
+  }
+  ```
+
+  **Response (200)**
+
+  ```json
+  {
+    "ok": true
+  }
+  ```
+
+- **GET** `/services`
+  **Response (200)**
+
+  ```json
+  {
+    "instancesByRoute": {
+      "/api/task": [
+        {
+          "id": "task-service-1",
+          "target": "http://task-service-1:8081/api/task",
+          "healthUrl": "/api/task/health",
+          "healthy": true,
+          "lastSeen": 1761337465695,
+          "failures": 0
+        }
+      ]
+    }
+  }
+  ```
+
+### Monitoring & Logs
+
+- **GET** `/logs`
+  **Query**: `{ limit }`
+  **Response (200)**
+
+  ```json
+  {
+    "logs": [
+      "[2025-10-24T20:15:22.123Z] [INFO] Service Discovery listening on port 3030",
+      "[2025-10-24T20:15:23.456Z] [INFO] Registered task-service-1"
+    ]
+  }
+  ```
+
+- **GET** `/logs/download`
+  **Response**: Downloads `service-discovery.log` file
+
+- **GET** `/metrics`
+  **Response**: Prometheus metrics in text format
+
+### Telegram Notifications (Lab 3)
+
+- **POST** `/telegram/test`
+  **Response (200)**
+
+  ```json
+  {
+    "ok": true,
+    "message": "Test notification sent successfully"
+  }
+  ```
+
+- **GET** `/telegram/status`
+  **Response (200)**
+
+  ```json
+  {
+    "enabled": true,
+    "configured": true
+  }
+  ```
+
+**Telegram Alert Types**:
+- 🔴 **Service Unhealthy** - When a service fails 2+ health checks
+- ✅ **Service Recovered** - When an unhealthy service becomes healthy
+- ❌ **Service Removed** - When a service is removed after 5+ failures
+
+---
+
 # Architectural Diagram of Microservices operation
 
-<img width="1068" height="798" alt="image" src="./assets/diagrams/Architecture_diagram.png" />
+<img width="1068" height="798" alt="image" src="./assets/diagrams/Architecture_diagram_3.png" />
 
 # Communication Contract
 

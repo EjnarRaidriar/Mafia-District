@@ -1,15 +1,95 @@
 services:
-  voting-service:
-    image: ${VOTING_SERVICE_IMAGE}
-    container_name: ${VOTING_SERVICE_CONTAINER_NAME}
+  voting-db:
+    image: ${VOTING_DB_IMAGE}
+    platform: linux/amd64
+    container_name: ${VOTING_DB_CONTAINER_NAME}
     environment:
-      PORT: ${VOTING_SERVICE_PORT}
-      DATABASE_URL: ${VOTING_DATABASE_URL}
-      GATEWAY_URL: ${VOTING_GATEWAY_URL}
-    volumes:
-      - ${VOTING_DATA_VOLUME}:/app/data
+      POSTGRES_USER: ${VOTING_DB_USER}
+      POSTGRES_PASSWORD: ${VOTING_DB_PASSWORD}
+      POSTGRES_DB: ${VOTING_DB_NAME}
     ports:
-      - "${VOTING_SERVICE_HOST_PORT}:${VOTING_SERVICE_PORT}"
+      - "${VOTING_DB_HOST_PORT}:5432"
+    volumes:
+      - ${VOTING_DB_DATA_VOLUME}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${VOTING_DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shared-net
+
+  voting-service-1:
+    platform: linux/amd64
+    image: dmindrescu/voting-service:latest
+    container_name: voting-service-1
+    depends_on:
+      voting-db:
+        condition: service_healthy
+    environment:
+      PORT: ${VOTING_SERVICE_PORT_1:-8071}
+      SERVICE_NAME: voting-service-1
+      SERVICE_INSTANCE_ID: voting-service-1
+      SERVICE_ROUTE: /api/voting
+      SERVICE_PORT: ${VOTING_SERVICE_PORT_1:-8071}
+      SERVICE_HEALTH_URL: /api/voting/health
+      SERVICE_TARGET_HOST: voting-service-1
+      DATABASE_URL: postgresql://${VOTING_DB_USER}:${VOTING_DB_PASSWORD}@voting-db:5432/${VOTING_DB_NAME}
+      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+      LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
+      TASK_TIMEOUT: ${TASK_TIMEOUT:-5.0}
+    ports:
+      - "${VOTING_SERVICE_PORT_1:-8071}:${VOTING_SERVICE_PORT_1:-8071}"
+    networks:
+      - shared-net
+    restart: unless-stopped
+
+  voting-service-2:
+    platform: linux/amd64
+    image: dmindrescu/voting-service:latest
+    container_name: voting-service-2
+    depends_on:
+      voting-db:
+        condition: service_healthy
+    environment:
+      PORT: ${VOTING_SERVICE_PORT_2:-8072}
+      SERVICE_NAME: voting-service-2
+      SERVICE_INSTANCE_ID: voting-service-2
+      SERVICE_ROUTE: /api/voting
+      SERVICE_PORT: ${VOTING_SERVICE_PORT_2:-8072}
+      SERVICE_HEALTH_URL: /api/voting/health
+      SERVICE_TARGET_HOST: voting-service-2
+      DATABASE_URL: postgresql://${VOTING_DB_USER}:${VOTING_DB_PASSWORD}@voting-db:5432/${VOTING_DB_NAME}
+      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+      LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
+      TASK_TIMEOUT: ${TASK_TIMEOUT:-5.0}
+    ports:
+      - "${VOTING_SERVICE_PORT_2:-8072}:${VOTING_SERVICE_PORT_2:-8072}"
+    networks:
+      - shared-net
+    restart: unless-stopped
+
+  voting-service-3:
+    platform: linux/amd64
+    image: dmindrescu/voting-service:latest
+    container_name: voting-service-3
+    depends_on:
+      voting-db:
+        condition: service_healthy
+    environment:
+      PORT: ${VOTING_SERVICE_PORT_3:-8073}
+      SERVICE_NAME: voting-service-3
+      SERVICE_INSTANCE_ID: voting-service-3
+      SERVICE_ROUTE: /api/voting
+      SERVICE_PORT: ${VOTING_SERVICE_PORT_3:-8073}
+      SERVICE_HEALTH_URL: /api/voting/health
+      SERVICE_TARGET_HOST: voting-service-3
+      DATABASE_URL: postgresql://${VOTING_DB_USER}:${VOTING_DB_PASSWORD}@voting-db:5432/${VOTING_DB_NAME}
+      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
+      LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
+      TASK_TIMEOUT: ${TASK_TIMEOUT:-5.0}
+    ports:
+      - "${VOTING_SERVICE_PORT_3:-8073}:${VOTING_SERVICE_PORT_3:-8073}"
     networks:
       - shared-net
     restart: unless-stopped
@@ -19,4 +99,4 @@ networks:
     external: true
 
 volumes:
-  voting-service-data:
+  voting-db-data:
