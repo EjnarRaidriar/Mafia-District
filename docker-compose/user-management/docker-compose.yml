@@ -20,6 +20,7 @@ services:
   user-management-service:
     image: ${SERVICE_IMAGE:-edyson1202/user-management-service:1.0}
     environment:
+      POSTGRES_HOST: user-management-db
       DB_HOST: user-management-db
       DB_PORT: 5432
       DB_USER: ${POSTGRES_USER:-pad_user}
