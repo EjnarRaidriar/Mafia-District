@@ -26,6 +26,9 @@ services:
       POSTGRES_HOST: game-db
       POSTGRES_PORT: 5432
       GATEWAY_URL: http://gateway:3000
+      SERVICE_DISCOVERY_URL: http://service-discovery:3030
+      SERVICE_NAME: game-service
+      SERVICE_ROUTE: /api/game
     env_file:
       - game.env
     ports:
