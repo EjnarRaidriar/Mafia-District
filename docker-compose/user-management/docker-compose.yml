@@ -20,14 +20,18 @@ services:
   user-management-service:
     image: ${SERVICE_IMAGE:-edyson1202/user-management-service:1.0}
     environment:
+      # Database connection (required by models/postgres.go)
       POSTGRES_HOST: user-management-db
-      DB_HOST: user-management-db
-      DB_PORT: 5432
-      DB_USER: ${POSTGRES_USER:-pad_user}
-      DB_PASSWORD: ${POSTGRES_PASSWORD:-user_password}
-      DB_NAME: ${POSTGRES_DB:-pad_user}
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-dbuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-DBp4ssword}
+      POSTGRES_DB: ${POSTGRES_DB:-usermanagement}
+      # Service configuration
       PORT: ${SERVICE_PORT:-4040}
+      SERVICE_DISCOVERY_URL: http://service-discovery:3030
       GATEWAY_URL: http://gateway:3000
+      SERVICE_NAME: user-management-service
+      SERVICE_PORT: ${SERVICE_PORT:-4040}
     ports:
       - "4040-4042:${SERVICE_PORT:-4040}"
     depends_on:
