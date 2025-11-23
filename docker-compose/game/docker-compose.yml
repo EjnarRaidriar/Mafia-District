@@ -19,6 +19,7 @@ services:
       retries: 10
       
   game-service:
+    build: ../../microservices/game-service
     image: edyson1202/game-service:2.0
     restart: always
     environment:
