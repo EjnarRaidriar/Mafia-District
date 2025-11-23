@@ -1,35 +1,44 @@
 services:
   user-management-db:
-    image: postgres:latest
-    restart: always
+    image: ${DB_IMAGE}
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - pgdata_user-management:/var/lib/postgresql/data
-    networks:
-      - shared-net
-    # ports:
-    #   - "${POSTGRES_PORT}:5432"
-    
-  user-management-service:
-    image: edyson1202/user-management-service:1.0
-    platform: linux/amd64
-    restart: always
-    environment:
-      POSTGRES_HOST: user-management-db
-      POSTGRES_PORT: 5432
-    env_file:
-      - user-management.env
+      - user_management_db_data:/var/lib/postgresql/data
     ports:
-      - "${PORT}:${PORT}"
-    depends_on:
-      - user-management-db
+      - "${DB_PORT}:5432"
     networks:
       - shared-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  user-management-service:
+    image: ${SERVICE_IMAGE}
+    environment:
+      DB_HOST: user-management-db
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      PORT: ${SERVICE_PORT}
+      GATEWAY_URL: http://gateway:3000
+    ports:
+      - "4040-4042:${SERVICE_PORT}"
+    depends_on:
+      user-management-db:
+        condition: service_healthy
+    networks:
+      - shared-net
+    deploy:
+      replicas: 3
+
 volumes:
-  pgdata_user-management:
+  user_management_db_data:
 
 networks:
   shared-net:

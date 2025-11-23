@@ -20,21 +20,30 @@ services:
       - shared-net
 
   communication-service:
+    platform: linux/amd64
     image: "niksaysit/pad-communication-service:${SVC_VERSION}"
-    container_name: ${SVC_HOST}
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: 5432
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
-    ports:
-      - "${SVC_PORT}:8080"
+      GATEWAY_URL: ${GATEWAY_URL}
+    # ports:
+    #   - "${SVC_PORT_START}-${SVC_PORT_END}:8080"
     depends_on:
       communication-db:
         condition: service_healthy
     networks:
       - shared-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      replicas: 2
 
 volumes:
   communication-db-data:

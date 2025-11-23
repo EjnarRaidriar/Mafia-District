@@ -10,7 +10,7 @@ services:
     ports:
       - "${VOTING_DB_HOST_PORT}:5432"
     volumes:
-      - ${VOTING_DB_DATA_VOLUME}:/var/lib/postgresql/data
+      - voting-db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${VOTING_DB_USER}"]
       interval: 10s
@@ -19,80 +19,35 @@ services:
     networks:
       - shared-net
 
-  voting-service-1:
+  # Using Docker Compose replicas for horizontal scaling
+  # Each replica auto-registers with Service Discovery using its hostname
+  # Gateway load-balances requests across all healthy instances
+  voting-service:
     platform: linux/amd64
+    build: ../../microservices/voting-service
     image: dmindrescu/voting-service:latest
-    container_name: voting-service-1
     depends_on:
       voting-db:
         condition: service_healthy
     environment:
-      PORT: ${VOTING_SERVICE_PORT_1:-8071}
-      SERVICE_NAME: voting-service-1
-      SERVICE_INSTANCE_ID: voting-service-1
+      PORT: ${VOTING_SERVICE_PORT:-8071}
       SERVICE_ROUTE: /api/voting
-      SERVICE_PORT: ${VOTING_SERVICE_PORT_1:-8071}
+      SERVICE_PORT: ${VOTING_SERVICE_PORT:-8071}
       SERVICE_HEALTH_URL: /api/voting/health
-      SERVICE_TARGET_HOST: voting-service-1
       DATABASE_URL: postgresql://${VOTING_DB_USER}:${VOTING_DB_PASSWORD}@voting-db:5432/${VOTING_DB_NAME}
       GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
       LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
       TASK_TIMEOUT: ${TASK_TIMEOUT:-5.0}
+      # SERVICE_INSTANCE_ID and SERVICE_TARGET_HOST auto-set from container hostname
     ports:
-      - "${VOTING_SERVICE_PORT_1:-8071}:${VOTING_SERVICE_PORT_1:-8071}"
+      - "8071-8073:8071"  # Docker assigns ports to replicas: 8071→replica1, 8072→replica2, 8073→replica3
     networks:
       - shared-net
     restart: unless-stopped
-
-  voting-service-2:
-    platform: linux/amd64
-    image: dmindrescu/voting-service:latest
-    container_name: voting-service-2
-    depends_on:
-      voting-db:
-        condition: service_healthy
-    environment:
-      PORT: ${VOTING_SERVICE_PORT_2:-8072}
-      SERVICE_NAME: voting-service-2
-      SERVICE_INSTANCE_ID: voting-service-2
-      SERVICE_ROUTE: /api/voting
-      SERVICE_PORT: ${VOTING_SERVICE_PORT_2:-8072}
-      SERVICE_HEALTH_URL: /api/voting/health
-      SERVICE_TARGET_HOST: voting-service-2
-      DATABASE_URL: postgresql://${VOTING_DB_USER}:${VOTING_DB_PASSWORD}@voting-db:5432/${VOTING_DB_NAME}
-      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
-      LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
-      TASK_TIMEOUT: ${TASK_TIMEOUT:-5.0}
-    ports:
-      - "${VOTING_SERVICE_PORT_2:-8072}:${VOTING_SERVICE_PORT_2:-8072}"
-    networks:
-      - shared-net
-    restart: unless-stopped
-
-  voting-service-3:
-    platform: linux/amd64
-    image: dmindrescu/voting-service:latest
-    container_name: voting-service-3
-    depends_on:
-      voting-db:
-        condition: service_healthy
-    environment:
-      PORT: ${VOTING_SERVICE_PORT_3:-8073}
-      SERVICE_NAME: voting-service-3
-      SERVICE_INSTANCE_ID: voting-service-3
-      SERVICE_ROUTE: /api/voting
-      SERVICE_PORT: ${VOTING_SERVICE_PORT_3:-8073}
-      SERVICE_HEALTH_URL: /api/voting/health
-      SERVICE_TARGET_HOST: voting-service-3
-      DATABASE_URL: postgresql://${VOTING_DB_USER}:${VOTING_DB_PASSWORD}@voting-db:5432/${VOTING_DB_NAME}
-      GATEWAY_URL: ${GATEWAY_URL:-http://gateway:3000}
-      LOG_BUFFER_SIZE: ${LOG_BUFFER_SIZE:-1000}
-      TASK_TIMEOUT: ${TASK_TIMEOUT:-5.0}
-    ports:
-      - "${VOTING_SERVICE_PORT_3:-8073}:${VOTING_SERVICE_PORT_3:-8073}"
-    networks:
-      - shared-net
-    restart: unless-stopped
+    deploy:
+      replicas: 3
+    # Access via Gateway (load-balanced): http://localhost:3000/api/voting
+    # OR directly: http://localhost:8071, :8072, :8073
 
 networks:
   shared-net:
