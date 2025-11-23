@@ -1,14 +1,14 @@
 services:
   user-management-db:
-    image: ${DB_IMAGE}
+    image: ${DB_IMAGE:-postgres:16-alpine}
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:-pad_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-user_password}
+      POSTGRES_DB: ${POSTGRES_DB:-pad_user}
     volumes:
       - user_management_db_data:/var/lib/postgresql/data
     ports:
-      - "${DB_PORT}:5432"
+      - "${DB_PORT:-5434}:5432"
     networks:
       - shared-net
     healthcheck:
@@ -18,17 +18,17 @@ services:
       retries: 5
 
   user-management-service:
-    image: ${SERVICE_IMAGE}
+    image: ${SERVICE_IMAGE:-edyson1202/user-management-service:1.0}
     environment:
       DB_HOST: user-management-db
       DB_PORT: 5432
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_NAME: ${POSTGRES_DB}
-      PORT: ${SERVICE_PORT}
+      DB_USER: ${POSTGRES_USER:-pad_user}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-user_password}
+      DB_NAME: ${POSTGRES_DB:-pad_user}
+      PORT: ${SERVICE_PORT:-4040}
       GATEWAY_URL: http://gateway:3000
     ports:
-      - "4040-4042:${SERVICE_PORT}"
+      - "4040-4042:${SERVICE_PORT:-4040}"
     depends_on:
       user-management-db:
         condition: service_healthy
