@@ -25,14 +25,16 @@ services:
     environment:
       POSTGRES_HOST: game-db
       POSTGRES_PORT: 5432
+      PORT: ${PORT:-4141}
       GATEWAY_URL: http://gateway:3000
       SERVICE_DISCOVERY_URL: http://service-discovery:3030
       SERVICE_NAME: game-service
       SERVICE_ROUTE: /api/game
+      SERVICE_PORT: ${PORT:-4141}
     env_file:
       - game.env
     ports:
-      - "4141-4143:${PORT}"
+      - "4141-4143:${PORT:-4141}"
     depends_on:
       game-db:
         condition: service_healthy
