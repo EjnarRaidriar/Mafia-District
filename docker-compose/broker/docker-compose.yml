@@ -1,0 +1,19 @@
+services:
+  message-broker:
+    image: "crodion/broker:latest"
+    container_name: message-broker
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      WORKER_POOL_SIZE: 4
+      CB_FAILURE_THRESHOLD: 3
+      CB_COOLDOWN_MS: 10000
+      CB_HALF_OPEN_TRIALS: 1
+    restart: unless-stopped
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    external: true

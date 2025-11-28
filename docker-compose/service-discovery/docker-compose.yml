@@ -1,7 +1,6 @@
 services:
   service-discovery:
     image: crodion/discovery:latest
-    platform: linux/amd64
     ports:
       - "${PORT}:${PORT}"
     env_file:
